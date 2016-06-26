@@ -10,12 +10,12 @@ namespace mortgagecruncher.Models
         public int PaymentNumber { get; set; }
         public int Month { get; private set; }
         public int Year { get; private set; }
-        public double Payment { get; private set; }
-        public double Principal { get; private set; }
-        public double Interest { get; private set; }
-        public double Balance { get; private set; }
+        public decimal Payment { get; private set; }
+        public decimal Principal { get; private set; }
+        public decimal Interest { get; private set; }
+        public decimal Balance { get; private set; }
 
-        public AmortisationScheduleEntry(int paymentNumber, int month, int year, double payment, double principal, double interest, double balance)
+        public AmortisationScheduleEntry(int paymentNumber, int month, int year, decimal payment, decimal principal, decimal interest, decimal balance)
         {
             PaymentNumber = paymentNumber;
             Month = month;

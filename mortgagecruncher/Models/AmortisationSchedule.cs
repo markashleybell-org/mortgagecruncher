@@ -10,15 +10,15 @@ namespace mortgagecruncher.Models
         List<AmortisationScheduleEntry> _scheduleEntries = new List<AmortisationScheduleEntry>();
         public IEnumerable<AmortisationScheduleEntry> ScheduleEntries { get { return _scheduleEntries; } }
 
-        public AmortisationSchedule(int startMonth, int startYear, double value, int termMonths, double termRate, int fixedTermMonths = 0, double fixedTermRate = 0)
+        public AmortisationSchedule(int startMonth, int startYear, decimal value, int termMonths, decimal termRate, int fixedTermMonths = 0, decimal fixedTermRate = 0)
         {
             CalculateAmortisationSchedule(_scheduleEntries, startMonth, startYear, value, termMonths, termRate, fixedTermMonths, fixedTermRate);
         }
 
-        private void CalculateAmortisationSchedule(List<AmortisationScheduleEntry> scheduleEntries, int startMonth, int startYear, double value, int termMonths, double termRate, int fixedTermMonths = 0, double fixedTermRate = 0)
+        private void CalculateAmortisationSchedule(List<AmortisationScheduleEntry> scheduleEntries, int startMonth, int startYear, decimal value, int termMonths, decimal termRate, int fixedTermMonths = 0, decimal fixedTermRate = 0)
         {
             int variableTermMonths = termMonths - fixedTermMonths;
-            double balance = value;
+            decimal balance = value;
 
             DateTime date = new DateTime(startYear, startMonth, 1);
 
@@ -34,7 +34,7 @@ namespace mortgagecruncher.Models
                 date = date.AddMonths(1);
             }
 
-            double remainingValue = balance;
+            decimal remainingValue = balance;
 
             // Calculate the schedule entries for the remaining period (or the whole term if there was no fixed period)
             for(; i < termMonths; i++)
@@ -47,12 +47,12 @@ namespace mortgagecruncher.Models
             }
         }
 
-        private AmortisationScheduleEntry CalculateAmortisationScheduleEntry(double value, double term, double rate, int paymentNumber, int month, int year, double balance)
+        private AmortisationScheduleEntry CalculateAmortisationScheduleEntry(decimal value, int term, decimal rate, int paymentNumber, int month, int year, decimal balance)
         {
             var i = MonthlyInterestRate(rate);
-            var a = Math.Pow(1.00 + i, term);
+            var a = Power(1.00M + i, term);
 
-            var payment = value * ((i * a) / (a - 1.00));
+            var payment = value * ((i * a) / (a - 1.00M));
 
             var interest = i * balance;
             var principal = payment - interest;
@@ -62,9 +62,17 @@ namespace mortgagecruncher.Models
             return new AmortisationScheduleEntry(paymentNumber, month, year, payment, principal, interest, newbalance);
         }
 
-        private double MonthlyInterestRate(double termRate)
+        public static decimal Power(decimal val, int pow)
         {
-            return termRate / 100.00 / 12.00;
+            decimal ret = 1;
+            for(int i = 0; i < pow; i++)
+                ret *= val;
+            return ret;
+        }
+
+        private decimal MonthlyInterestRate(decimal termRate)
+        {
+            return termRate / 100.00M / 12.00M;
         }
     }
 }
