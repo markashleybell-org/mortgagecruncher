@@ -36,6 +36,7 @@
 <table class="table table-striped table-bordered table-condensed">
     <thead>
         <tr>
+            <th>Pmt No.</th>
             <th>Month</th>
             <th>Payment</th>
             <th>Principal</th>
@@ -47,6 +48,7 @@
     @foreach (var entry in Model.ScheduleEntries)
     {
         <tr>
+            <td>@entry.PaymentNumber</td>
             <td>@Model.MonthNames[entry.Month - 1] @entry.Year</td>
             <td>@entry.Payment.ToString("F2")</td>
             <td>@entry.Principal.ToString("F2")</td>
