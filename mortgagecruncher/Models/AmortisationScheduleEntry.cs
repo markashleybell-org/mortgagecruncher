@@ -20,10 +20,6 @@ namespace mortgagecruncher.Models
             PaymentNumber = paymentNumber;
             Month = month;
             Year = year;
-            //Payment = Math.Round(payment, 2, MidpointRounding.ToEven);
-            //Principal = Math.Round(principal, 2, MidpointRounding.ToEven);
-            //Interest = Math.Round(interest, 2, MidpointRounding.ToEven);
-            //Balance = Math.Round(balance, 2, MidpointRounding.ToEven);
             Payment = payment;
             Principal = principal;
             Interest = interest;

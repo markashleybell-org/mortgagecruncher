@@ -62,7 +62,7 @@ namespace mortgagecruncher.Models
             return new AmortisationScheduleEntry(paymentNumber, month, year, payment, principal, interest, newbalance);
         }
 
-        public static decimal Power(decimal val, int pow)
+        private static decimal Power(decimal val, int pow)
         {
             decimal ret = 1;
             for(int i = 0; i < pow; i++)
