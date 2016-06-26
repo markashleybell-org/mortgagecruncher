@@ -23,12 +23,12 @@ namespace mortgagecruncher.Models
             // Add a month because the first payment won't go out until the following month
             DateTime date = new DateTime(startYear, startMonth, 1).AddMonths(1);
 
-            int i = 0;
+            int i = 1;
 
             // Calculate the schedule entries for the fixed term period
-            for(; i < fixedTermMonths; i++)
+            for(; i <= fixedTermMonths; i++)
             {
-                var entry = CalculateAmortisationScheduleEntry(value, termMonths, fixedTermRate, (i + 1), date.Month, date.Year, balance);
+                var entry = CalculateAmortisationScheduleEntry(value, termMonths, fixedTermRate, i, date.Month, date.Year, balance);
                 scheduleEntries.Add(entry);
 
                 balance = entry.Balance;
@@ -38,9 +38,9 @@ namespace mortgagecruncher.Models
             decimal remainingValue = balance;
 
             // Calculate the schedule entries for the remaining period (or the whole term if there was no fixed period)
-            for(; i < termMonths; i++)
+            for(; i <= termMonths; i++)
             {
-                var entry = CalculateAmortisationScheduleEntry(remainingValue, variableTermMonths, termRate, (i + 1), date.Month, date.Year, balance);
+                var entry = CalculateAmortisationScheduleEntry(remainingValue, variableTermMonths, termRate, i, date.Month, date.Year, balance);
                 scheduleEntries.Add(entry);
 
                 balance = entry.Balance;
@@ -58,7 +58,7 @@ namespace mortgagecruncher.Models
             var interest = i * balance;
             var principal = payment - interest;
 
-            var newbalance = (balance - payment) + interest;
+            var newbalance = ((balance - payment) + interest);
 
             return new AmortisationScheduleEntry(paymentNumber, month, year, payment, principal, interest, newbalance);
         }
