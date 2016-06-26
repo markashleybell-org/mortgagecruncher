@@ -20,7 +20,8 @@ namespace mortgagecruncher.Models
             int variableTermMonths = termMonths - fixedTermMonths;
             decimal balance = value;
 
-            DateTime date = new DateTime(startYear, startMonth, 1);
+            // Add a month because the first payment won't go out until the following month
+            DateTime date = new DateTime(startYear, startMonth, 1).AddMonths(1);
 
             int i = 0;
 
