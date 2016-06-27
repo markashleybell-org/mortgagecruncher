@@ -24,6 +24,10 @@ namespace mortgagecruncher.ViewModels
         public int FixedTermYears { get; set; } 
         [Display(Name = "Fixed Term Rate")]
         public decimal FixedTermRate { get; set; } 
+        [Display(Name = "Extra Payment Interval")]
+        public int ExtraPaymentInterval { get; set; } 
+        [Display(Name = "Extra Payment Amount")]
+        public decimal ExtraPaymentAmount { get; set; } 
 
         public string[] MonthNames { get; private set; }
 

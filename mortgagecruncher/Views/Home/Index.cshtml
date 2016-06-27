@@ -30,6 +30,16 @@
         @Html.LabelFor(m => m.FixedTermRate, new { @class = "control-label" })
         @Html.TextBoxFor(m => m.FixedTermRate, new { @class = "form-control", placeholder = "Loan Value" })
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ExtraPaymentInterval, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.ExtraPaymentInterval, new { @class = "form-control", placeholder = "Loan Value" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ExtraPaymentAmount, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.ExtraPaymentAmount, new { @class = "form-control", placeholder = "Loan Value" })
+    </div>
+
     <input type="submit" class="btn btn-primary" value="Go"/>
 }
 

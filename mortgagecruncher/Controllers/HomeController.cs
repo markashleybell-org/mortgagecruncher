@@ -21,7 +21,9 @@ namespace mortgagecruncher.Controllers
                     (model.TermYears * 12),
                     model.TermRate,
                     (model.FixedTermYears * 12),
-                    model.FixedTermRate
+                    model.FixedTermRate,
+                    model.ExtraPaymentInterval,
+                    model.ExtraPaymentAmount
                 );
 
                 model.ScheduleEntries = schedule.ScheduleEntries;
