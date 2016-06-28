@@ -36,8 +36,8 @@ namespace mortgagecruncher.Models
                 scheduleEntries.Add(entry);
                 if(e > 0)
                 { 
-                value -= e;
-                //fullTermMonths -= i;
+                     value = entry.Balance;
+                     fullTermMonths = termMonths - i;
                 }
                 balance = entry.Balance;
                 date = date.AddMonths(1);
@@ -54,9 +54,9 @@ namespace mortgagecruncher.Models
                 scheduleEntries.Add(entry);
 
                 if(e > 0)
-                { 
-                remainingValue -= e;
-                //variableTermMonths -= i;
+                {
+                    remainingValue = entry.Balance;
+                    variableTermMonths = termMonths - i;
                 }
                 balance = entry.Balance;
                 date = date.AddMonths(1);
@@ -68,7 +68,10 @@ namespace mortgagecruncher.Models
             var i = MonthlyInterestRate(rate);
             var a = Power(1.00M + i, term);
 
-            var payment = value * ((i * a) / (a - 1.00M)) + extraPaymentAmount;
+            var payment = value * ((i * a) / (a - 1.00M));
+
+            if(extraPaymentAmount > 0 && (payment + extraPaymentAmount) <= balance)
+                 payment += extraPaymentAmount;
 
             var interest = i * balance;
             var principal = payment - interest;
