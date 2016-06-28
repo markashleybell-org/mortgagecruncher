@@ -32,7 +32,7 @@ namespace mortgagecruncher.Models
             {
                 e = (extraPaymentInterval > 0 && (i % extraPaymentInterval == 0)) ? extraPaymentAmount : 0;
 
-                var entry = CalculateAmortisationScheduleEntry(value, fullTermMonths, fixedTermRate, i, date.Month, date.Year, balance, e);
+                var entry = CalculateAmortisationScheduleEntry(value, fullTermMonths, InterestType.Fixed, fixedTermRate, i, date.Month, date.Year, balance, e);
                 scheduleEntries.Add(entry);
                 if(e > 0)
                 { 
@@ -50,7 +50,7 @@ namespace mortgagecruncher.Models
             {
                 e = (extraPaymentInterval > 0 && (i % extraPaymentInterval == 0)) ? extraPaymentAmount : 0;
 
-                var entry = CalculateAmortisationScheduleEntry(remainingValue, variableTermMonths, termRate, i, date.Month, date.Year, balance, e);
+                var entry = CalculateAmortisationScheduleEntry(remainingValue, variableTermMonths, InterestType.Variable, termRate, i, date.Month, date.Year, balance, e);
                 scheduleEntries.Add(entry);
 
                 if(e > 0)
@@ -63,7 +63,7 @@ namespace mortgagecruncher.Models
             }
         }
 
-        private AmortisationScheduleEntry CalculateAmortisationScheduleEntry(decimal value, int term, decimal rate, int paymentNumber, int month, int year, decimal balance, decimal extraPaymentAmount = 0)
+        private AmortisationScheduleEntry CalculateAmortisationScheduleEntry(decimal value, int term, InterestType interestType, decimal rate, int paymentNumber, int month, int year, decimal balance, decimal extraPaymentAmount = 0)
         {
             var i = MonthlyInterestRate(rate);
             var a = Power(1.00M + i, term);
@@ -78,7 +78,7 @@ namespace mortgagecruncher.Models
 
             var newbalance = ((balance - payment) + interest);
 
-            return new AmortisationScheduleEntry(paymentNumber, month, year, payment, principal, interest, newbalance);
+            return new AmortisationScheduleEntry(paymentNumber, month, year, payment, principal, interest, interestType, rate, newbalance);
         }
 
         private static decimal Power(decimal val, int pow)

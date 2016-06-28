@@ -48,9 +48,10 @@
         <tr>
             <th>Pmt No.</th>
             <th>Month</th>
+            <th>Interest Rate/Type</th>
             <th>Payment</th>
-            <th>Principal</th>
             <th>Interest</th>
+            <th>Principal</th>
             <th>Balance</th>
         </tr>
     </thead>
@@ -60,9 +61,10 @@
         <tr>
             <td>@entry.PaymentNumber</td>
             <td>@Model.MonthNames[entry.Month - 1] @entry.Year</td>
+            <td>@entry.InterestRate% @entry.InterestType</td>
             <td>@entry.Payment.ToString("F2")</td>
-            <td>@entry.Principal.ToString("F2")</td>
             <td>@entry.Interest.ToString("F2")</td>
+            <td>@entry.Principal.ToString("F2")</td>
             <td>@entry.Balance.ToString("F2")</td>
         </tr>
     }

@@ -125,6 +125,7 @@
     </Compile>
     <Compile Include="Models\AmortisationScheduleEntry.cs" />
     <Compile Include="Models\AmortisationSchedule.cs" />
+    <Compile Include="Models\InterestType.cs" />
     <Compile Include="ViewModels\IndexViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

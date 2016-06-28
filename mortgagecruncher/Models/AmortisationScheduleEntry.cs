@@ -13,9 +13,11 @@ namespace mortgagecruncher.Models
         public decimal Payment { get; private set; }
         public decimal Principal { get; private set; }
         public decimal Interest { get; private set; }
+        public InterestType InterestType { get; private set; }
+        public decimal InterestRate { get; private set; }
         public decimal Balance { get; private set; }
 
-        public AmortisationScheduleEntry(int paymentNumber, int month, int year, decimal payment, decimal principal, decimal interest, decimal balance)
+        public AmortisationScheduleEntry(int paymentNumber, int month, int year, decimal payment, decimal principal, decimal interest, InterestType interestType, decimal interestRate, decimal balance)
         {
             PaymentNumber = paymentNumber;
             Month = month;
@@ -23,6 +25,8 @@ namespace mortgagecruncher.Models
             Payment = payment;
             Principal = principal;
             Interest = interest;
+            InterestType = interestType;
+            InterestRate = interestRate;
             Balance = balance;
         }
     }
