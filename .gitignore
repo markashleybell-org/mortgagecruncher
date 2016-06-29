@@ -253,5 +253,5 @@ paket-files/
 *.sln.iml
 
 # Project-specific ignores
+dist/
 *.linq
-mortgagecruncher/Web.config
