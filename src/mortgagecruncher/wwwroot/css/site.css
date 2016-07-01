@@ -36,3 +36,24 @@ textarea {
     display: none
   }
 }
+
+
+.table-striped > tbody > tr.fixed > td, .table-striped > tbody > tr.fixed > th {
+   background-color: #dff0d8;
+}
+
+.table-striped > tbody > tr.fixed:nth-child(2n+1) > td, .table-striped > tbody > tr.fixed:nth-child(2n+1) > th {
+   background-color: #ceeac3;
+}
+
+.table-striped > tbody > tr.variable > td, .table-striped > tbody > tr.variable > th {
+   background-color: #e1f1f9;
+}
+
+.table-striped > tbody > tr.variable:nth-child(2n+1) > td, .table-striped > tbody > tr.variable:nth-child(2n+1) > th {
+   background-color: #d9edf7;
+}
+
+.table-condensed > tbody > tr > td, .table-condensed > thead > tr > th {
+    padding: 5px 15px;
+}

@@ -59,7 +59,7 @@
     <tbody>
         @foreach (var entry in Model.ScheduleEntries)
         {
-            <tr>
+            <tr class="@(entry.InterestType == InterestType.Fixed ? "fixed" : "variable")">
                 <td>@entry.PaymentNumber</td>
                 <td>@Model.MonthNames[entry.Month - 1] @entry.Year</td>
                 <td>@entry.InterestType</td>
