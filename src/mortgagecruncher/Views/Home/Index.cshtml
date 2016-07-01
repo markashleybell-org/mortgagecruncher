@@ -1,47 +1,59 @@
 ﻿@model IndexViewModel
 
-@using (Html.BeginForm("Index", "Home", FormMethod.Get, new { @class = "form-inline form-variables" }))
-{
+<form asp-action="Index" asp-controller="Home" class="form-horizontal form-variables">
     <div class="form-group">
-        @Html.LabelFor(m => m.StartMonth, new { @class = "sr-only" })
-        @Html.DropDownListFor(m => m.StartMonth, Model.MonthOptions, new { @class = "form-control " })
+        <label class="col-sm-3 control-label">Start Month</label>
+        <div class="col-sm-2">
+            <select asp-for="StartMonth" asp-items="Model.MonthOptions" class="form-control"></select>
+        </div>
+        <div class="col-sm-2">
+            <select asp-for="StartYear" asp-items="Model.YearOptions" class="form-control"></select>
+        </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.StartYear, new { @class = "sr-only" })
-        @Html.DropDownListFor(m => m.StartYear, Model.YearOptions, new { @class = "form-control" })
+        <label asp-for="LoanValue" class="col-sm-3 control-label"></label>
+        <div class="col-sm-2">
+            <input asp-for="LoanValue" class="form-control" />
+        </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.LoanValue, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.LoanValue, new { @class = "form-control", placeholder = "Loan Value" })
+        <label asp-for="TermYears" class="col-sm-3 control-label"></label>
+        <div class="col-sm-2">
+            <input asp-for="TermYears" class="form-control" />
+        </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.TermYears, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.TermYears, new { @class = "form-control", placeholder = "Mortgage Term" })
+        <label asp-for="TermRate" class="col-sm-3 control-label"></label>
+        <div class="col-sm-2">
+            <input asp-for="TermRate" class="form-control" />
+        </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.TermRate, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.TermRate, new { @class = "form-control", placeholder = "Loan Value" })
+        <label asp-for="FixedTermYears" class="col-sm-3 control-label"></label>
+        <div class="col-sm-2">
+            <input asp-for="FixedTermYears" class="form-control" />
+        </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.FixedTermYears, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.FixedTermYears, new { @class = "form-control", placeholder = "Loan Value" })
+        <label asp-for="FixedTermRate" class="col-sm-3 control-label"></label>
+        <div class="col-sm-2">
+            <input asp-for="FixedTermRate" class="form-control" />
+        </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.FixedTermRate, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.FixedTermRate, new { @class = "form-control", placeholder = "Loan Value" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.ExtraPaymentInterval, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.ExtraPaymentInterval, new { @class = "form-control", placeholder = "Loan Value" })
+        <label asp-for="ExtraPaymentInterval" class="col-sm-3 control-label"></label>
+        <div class="col-sm-2">
+            <input asp-for="ExtraPaymentInterval" class="form-control" />
+        </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.ExtraPaymentAmount, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.ExtraPaymentAmount, new { @class = "form-control", placeholder = "Loan Value" })
+        <label asp-for="ExtraPaymentAmount" class="col-sm-3 control-label"></label>
+        <div class="col-sm-2">
+            <input asp-for="ExtraPaymentAmount" class="form-control" />
+        </div>
     </div>
-
     <input type="submit" class="btn btn-primary" value="Go" />
-}
+</form>
 
 <table class="table table-striped table-hover table-condensed">
     <thead>
