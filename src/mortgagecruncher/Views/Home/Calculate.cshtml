@@ -1,13 +1,13 @@
 ﻿@model IndexViewModel
 
-<form asp-action="Index" asp-controller="Home" class="form-horizontal form-variables">
+<form asp-action="Calculate" asp-controller="Home" method="get" class="form-horizontal form-variables">
     <div class="form-group">
-        <label class="col-sm-3 control-label">Start Month</label>
+        <label asp-for="StartDate" class="col-sm-3 control-label"></label>
         <div class="col-sm-2">
-            <select asp-for="StartMonth" asp-items="Model.MonthOptions" class="form-control"></select>
+            <input asp-for="StartDate" class="form-control datepicker"/>
         </div>
-        <div class="col-sm-2">
-            <select asp-for="StartYear" asp-items="Model.YearOptions" class="form-control"></select>
+        <div class="col-sm-7">
+            <p class="form-control-static"><span asp-validation-for="StartDate"></span></p>
         </div>
     </div>
     <div class="form-group">
@@ -15,11 +15,17 @@
         <div class="col-sm-2">
             <input asp-for="LoanValue" class="form-control" />
         </div>
+        <div class="col-sm-7">
+            <p class="form-control-static"><span asp-validation-for="LoanValue"></span></p>
+        </div>
     </div>
     <div class="form-group">
         <label asp-for="TermYears" class="col-sm-3 control-label"></label>
         <div class="col-sm-2">
             <input asp-for="TermYears" class="form-control" />
+        </div>
+        <div class="col-sm-7">
+            <p class="form-control-static"><span asp-validation-for="TermYears"></span></p>
         </div>
     </div>
     <div class="form-group">
@@ -27,11 +33,17 @@
         <div class="col-sm-2">
             <input asp-for="TermRate" class="form-control" />
         </div>
+        <div class="col-sm-7">
+            <p class="form-control-static"><span asp-validation-for="TermRate"></span></p>
+        </div>
     </div>
     <div class="form-group">
         <label asp-for="FixedTermYears" class="col-sm-3 control-label"></label>
         <div class="col-sm-2">
             <input asp-for="FixedTermYears" class="form-control" />
+        </div>
+        <div class="col-sm-7">
+            <p class="form-control-static"><span asp-validation-for="FixedTermYears"></span></p>
         </div>
     </div>
     <div class="form-group">
@@ -39,11 +51,17 @@
         <div class="col-sm-2">
             <input asp-for="FixedTermRate" class="form-control" />
         </div>
+        <div class="col-sm-7">
+            <p class="form-control-static"><span asp-validation-for="FixedTermRate"></span></p>
+        </div>
     </div>
     <div class="form-group">
         <label asp-for="ExtraPaymentInterval" class="col-sm-3 control-label"></label>
         <div class="col-sm-2">
             <input asp-for="ExtraPaymentInterval" class="form-control" />
+        </div>
+        <div class="col-sm-7">
+            <p class="form-control-static"><span asp-validation-for="ExtraPaymentInterval"></span></p>
         </div>
     </div>
     <div class="form-group">
@@ -51,10 +69,19 @@
         <div class="col-sm-2">
             <input asp-for="ExtraPaymentAmount" class="form-control" />
         </div>
+        <div class="col-sm-7">
+            <p class="form-control-static"><span asp-validation-for="ExtraPaymentAmount"></span></p>
+        </div>
     </div>
-    <input type="submit" class="btn btn-primary" value="Go" />
+    <div class="form-group">
+        <div class="col-sm-4 col-sm-offset-3">
+            <input type="submit" class="btn btn-primary" value="Calculate Payments" />
+        </div>
+    </div>
+    
 </form>
 
+@if(Model.ScheduleEntries.Count() > 0) { 
 <table class="table table-striped table-hover table-condensed">
     <thead>
         <tr>
@@ -84,3 +111,4 @@
         }
     </tbody>
 </table>
+}
