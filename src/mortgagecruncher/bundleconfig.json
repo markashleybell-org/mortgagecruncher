@@ -6,12 +6,14 @@
     // An array of relative input file paths. Globbing patterns supported
     "inputFiles": [
       "wwwroot/css/bootstrap.css",
+      "wwwroot/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css",
       "wwwroot/css/site.css"
     ]
   },
   {
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
+      "wwwroot/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.js",
       "wwwroot/js/site.js"
     ],
     // Optionally specify minification options
