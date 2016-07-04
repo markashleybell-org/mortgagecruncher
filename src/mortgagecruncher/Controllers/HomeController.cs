@@ -11,6 +11,7 @@ namespace mortgagecruncher.Controllers
         public IActionResult Index()
         {
             return View("Calculate", new IndexViewModel {
+                StartDate = DateTime.Now.ToString("dd/MM/yyyy"),
                 LoanValue = 100000,
                 TermYears = 25,
                 TermRate = 4.49M
