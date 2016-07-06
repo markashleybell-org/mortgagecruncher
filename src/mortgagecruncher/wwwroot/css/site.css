@@ -8,22 +8,35 @@
     padding-right: 15px;
 }
 
-.table-striped > tbody > tr.fixed > td, .table-striped > tbody > tr.fixed > th {
+.table-striped > tbody > tr.fixed > td, 
+.table-striped > tbody > tr.fixed > th {
    background-color: #dff0d8;
 }
 
-.table-striped > tbody > tr.fixed:nth-child(2n+1) > td, .table-striped > tbody > tr.fixed:nth-child(2n+1) > th {
+.table-striped > tbody > tr.fixed:nth-child(2n+1) > td, 
+.table-striped > tbody > tr.fixed:nth-child(2n+1) > th {
    background-color: #ceeac3;
 }
 
-.table-striped > tbody > tr.variable > td, .table-striped > tbody > tr.variable > th {
+.table-striped > tbody > tr.variable > td, 
+.table-striped > tbody > tr.variable > th {
    background-color: #e1f1f9;
 }
 
-.table-striped > tbody > tr.variable:nth-child(2n+1) > td, .table-striped > tbody > tr.variable:nth-child(2n+1) > th {
+.table-striped > tbody > tr.variable:nth-child(2n+1) > td, 
+.table-striped > tbody > tr.variable:nth-child(2n+1) > th {
    background-color: #d9edf7;
 }
 
-.table-condensed > tbody > tr > td, .table-condensed > thead > tr > th {
+.table-striped > tbody > tr.current > td, 
+.table-striped > tbody > tr.current > th,
+.table-striped > tbody > tr.current + tr > td, 
+.table-striped > tbody > tr.current + tr > th {
+   border-top-color: #229832;
+   border-width: 2px;
+}
+
+.table-condensed > tbody > tr > td, 
+.table-condensed > thead > tr > th {
     padding: 5px 15px;
 }
