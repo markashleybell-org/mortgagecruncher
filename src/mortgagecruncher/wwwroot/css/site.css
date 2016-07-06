@@ -40,3 +40,11 @@
 .table-condensed > thead > tr > th {
     padding: 5px 15px;
 }
+
+.popover{
+    max-width: 100%;
+}
+
+.input-group-addon {
+    font-family: inherit;
+}

@@ -10,23 +10,23 @@ namespace mortgagecruncher.ViewModels
     public class IndexViewModel
     {
         [Required]
-        [Display(Name = "Term Start Date")]
+        [Display(Name = "Mortgage Start Date")]
         public string StartDate { get; set; } 
         [Required(ErrorMessage = "NOPE")]
         [Display(Name = "Loan Value")]
         public decimal LoanValue { get; set; } 
         [Required]
-        [Display(Name = "Term Years")]
+        [Display(Name = "Mortgage Term")]
         public int TermYears { get; set; } 
-        [Display(Name = "Term Rate")]
+        [Display(Name = "Standard Rate")]
         public decimal TermRate { get; set; } 
-        [Display(Name = "Fixed Term Years")]
+        [Display(Name = "Fixed Rate Period")]
         public int? FixedTermYears { get; set; } 
-        [Display(Name = "Fixed Term Rate")]
+        [Display(Name = "Fixed Interest Rate")]
         public decimal? FixedTermRate { get; set; } 
-        [Display(Name = "Extra Payment Interval")]
+        [Display(Name = "Regular Overpayment Interval")]
         public int? ExtraPaymentInterval { get; set; } 
-        [Display(Name = "Extra Payment Amount")]
+        [Display(Name = "Regular Overpayment Amount")]
         public decimal? ExtraPaymentAmount { get; set; } 
 
         public string[] MonthNames { get; private set; }
