@@ -255,4 +255,4 @@ paket-files/
 # Project-specific ignores
 dist/
 *.linq
-wwwroot/lib/
+**/wwwroot/lib/
