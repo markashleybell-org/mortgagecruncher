@@ -24,12 +24,16 @@ namespace mortgagecruncher.ViewModels
         public int? FixedTermYears { get; set; } 
         [Display(Name = "Fixed interest rate")]
         public decimal? FixedTermRate { get; set; } 
-        [Display(Name = "Regular overpayment interval")]
+        [Display(Name = "Regular overpayments?")]
         public int? ExtraPaymentInterval { get; set; } 
-        [Display(Name = "Regular overpayment amount")]
+        [Display(Name = "Overpayment amount")]
         public decimal? ExtraPaymentAmount { get; set; } 
 
         public string[] MonthNames { get; private set; }
+
+        public IEnumerable<SelectListItem> OverpaymentIntervals { get; set; }
+
+        public IEnumerable<SelectListItem> FixedRatePeriods { get; set; }
 
         public IEnumerable<AmortisationScheduleEntry> ScheduleEntries { get; set; }
 
@@ -48,6 +52,29 @@ namespace mortgagecruncher.ViewModels
                 "October",
                 "November",
                 "December"
+            };
+
+            OverpaymentIntervals = new List<SelectListItem> {
+                new SelectListItem { Value = "", Text = "None" },
+                new SelectListItem { Value = "1", Text = "Monthly" },
+                new SelectListItem { Value = "12", Text = "Yearly" },
+                new SelectListItem { Value = "2", Text = "Every 2 months" },
+                new SelectListItem { Value = "3", Text = "Every 3 months" },
+                new SelectListItem { Value = "4", Text = "Every 4 months" },
+                new SelectListItem { Value = "5", Text = "Every 5 months" },
+                new SelectListItem { Value = "6", Text = "Every 6 months" },
+                new SelectListItem { Value = "7", Text = "Every 7 months" },
+                new SelectListItem { Value = "8", Text = "Every 8 months" },
+                new SelectListItem { Value = "9", Text = "Every 9 months" },
+                new SelectListItem { Value = "10", Text = "Every 10 months" },
+                new SelectListItem { Value = "11", Text = "Every 11 months" }
+            };
+
+            FixedRatePeriods = new List<SelectListItem> {
+                new SelectListItem { Value = "", Text = "No fixed rate period" },
+                new SelectListItem { Value = "2", Text = "2 years" },
+                new SelectListItem { Value = "5", Text = "5 years" },
+                new SelectListItem { Value = "10", Text = "10 years" }
             };
 
             ScheduleEntries = new List<AmortisationScheduleEntry>();
