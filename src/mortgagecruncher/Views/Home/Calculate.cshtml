@@ -110,6 +110,7 @@
 <table class="table table-striped table-hover table-condensed">
     <thead>
         <tr>
+            <th>Year</th>
             <th>Pmt No.</th>
             <th>Month</th>
             <th>Interest</th>
@@ -123,10 +124,16 @@
     <tbody>
         @{
             var now = DateTime.Now;
+            var currentYear = 0;
         }
         @foreach (var entry in Model.ScheduleEntries)
         {
             <tr class="@(entry.InterestType == InterestType.Fixed ? "fixed" : "variable")@((entry.Year == now.Year && entry.Month == now.Month) ? " current" : "")">
+                @if(currentYear != entry.Year)
+                {
+                <td class="year" rowspan="@(13 - entry.Month)">@entry.Year</td>
+                    currentYear = entry.Year;
+                }
                 <td>@entry.PaymentNumber</td>
                 <td>@Model.MonthNames[entry.Month - 1] @entry.Year</td>
                 <td>@entry.InterestType</td>

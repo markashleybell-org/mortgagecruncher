@@ -48,3 +48,8 @@
 .input-group-addon {
     font-family: inherit;
 }
+
+.year {
+    background-color: #efefef !important;
+    border-top: solid 1px #999999 !important;
+}
