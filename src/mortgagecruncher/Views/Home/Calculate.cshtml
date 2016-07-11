@@ -59,7 +59,7 @@
             <p class="form-control-static"><span asp-validation-for="FixedTermYears"></span></p>
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" id="fixed-term-rate-group">
         <label asp-for="FixedTermRate" class="col-sm-@(cols.Label) control-label"></label>
         <div class="col-sm-@(cols.Input)">
             <div class="input-group">
@@ -71,6 +71,9 @@
             <p class="form-control-static"><span asp-validation-for="FixedTermRate"></span></p>
         </div>
     </div>
+    <script>
+        document.getElementById('fixed-term-rate-group').style.display = document.getElementById('FixedTermYears').value !== '' ? 'block' : 'none';
+    </script>
     <div class="form-group">
         <label asp-for="ExtraPaymentInterval" class="col-sm-@(cols.Label) control-label"></label>
         <div class="col-sm-@(cols.Input)">
@@ -80,7 +83,7 @@
             <p class="form-control-static"><span asp-validation-for="ExtraPaymentInterval"></span></p>
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" id="extra-payment-amount-group">
         <label asp-for="ExtraPaymentAmount" class="col-sm-@(cols.Label) control-label"></label>
         <div class="col-sm-@(cols.Input)">
             <div class="input-group">
@@ -92,12 +95,15 @@
             <p class="form-control-static"><span asp-validation-for="ExtraPaymentAmount"></span></p>
         </div>
     </div>
+    <script>
+        document.getElementById('extra-payment-amount-group').style.display = document.getElementById('ExtraPaymentInterval').value !== '' ? 'block' : 'none';
+    </script>
     <div class="form-group">
         <div class="col-sm-4 col-sm-offset-@(cols.Label)">
             <input type="submit" class="btn btn-primary" value="Calculate Payments" />
         </div>
     </div>
-    
+    <input type="hidden" id="refresh" value="no" />
 </form>
 
 @if(Model.ScheduleEntries.Count() > 0) {
