@@ -37,6 +37,8 @@ namespace mortgagecruncher.ViewModels
 
         public IEnumerable<AmortisationScheduleEntry> ScheduleEntries { get; set; }
 
+        public bool Valid { get; set; }
+
         public IndexViewModel()
         {
             MonthNames = new[] {

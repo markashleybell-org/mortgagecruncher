@@ -4,7 +4,7 @@
     var cols = new { Label = 4, Input = 3, Validation = 5 };
 }
 
-<form asp-action="Calculate" asp-controller="Home" method="get" class="form-horizontal form-variables">
+<form asp-action="Calculate" asp-controller="Home" method="get" class="form-horizontal form-variables" id="form-variables">
     <div class="form-group">
         <label asp-for="LoanValue" class="col-sm-@(cols.Label) control-label"></label>
         <div class="col-sm-@(cols.Input)">
@@ -103,8 +103,27 @@
             <input type="submit" class="btn btn-primary" value="Calculate Payments" />
         </div>
     </div>
+    <input type="hidden" asp-for="Valid" />
     <input type="hidden" id="refresh" value="no" />
 </form>
+@if(Model.Valid) {
+<script>
+    document.getElementById('form-variables').style.display = 'none';
+</script>
+<p id="mortgage-summary">
+    <strong>@Model.LoanValue.ToString("C")</strong> repayable over <strong>@Model.TermYears</strong> years at
+    @if (Model.FixedTermYears.HasValue)
+    {
+        <strong>@Model.FixedTermRate% APR fixed for @Model.FixedTermYears</strong> @:years, then reverting to 
+    }
+    <strong>@Model.TermRate% SVR</strong>. 
+    @if(Model.ExtraPaymentInterval.HasValue && Model.ExtraPaymentAmount.HasValue && Model.ExtraPaymentInterval > 0 && Model.ExtraPaymentAmount > 0) { 
+    @:<br />An overpayment of <strong>@Model.ExtraPaymentAmount.Value.ToString("C")</strong> will be made <strong>every @Model.ExtraPaymentInterval months.</strong>
+    }
+    <a href="#" id="show-form">[Change]</a>
+</p>
+
+}
 
 @if(Model.ScheduleEntries.Count() > 0) {
 <table class="table table-striped table-hover table-condensed">

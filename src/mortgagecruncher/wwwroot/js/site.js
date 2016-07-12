@@ -45,4 +45,12 @@
     } else {
         refresh.val('yes');
     }
+
+    var form = $('#form-variables');
+    var summary = $('#mortgage-summary');
+
+    $('#show-form').on('click', function(e) {
+        form.show();
+        summary.hide();
+    });
 });

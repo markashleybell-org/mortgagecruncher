@@ -23,6 +23,8 @@ namespace mortgagecruncher.Controllers
             if(!ModelState.IsValid)
                 return View(model);
 
+            model.Valid = true;
+
             if(!string.IsNullOrWhiteSpace(model.StartDate))
             { 
                 DateTime startDate;

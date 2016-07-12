@@ -53,3 +53,7 @@
     background-color: #efefef !important;
     border-top: solid 1px #999999 !important;
 }
+
+#mortgage-summary {
+    font-size: 20px;
+}
