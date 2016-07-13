@@ -130,8 +130,8 @@
     <thead>
         <tr>
             <th>Year</th>
-            <th>Pmt No.</th>
             <th>Date</th>
+            <th>Pmt. No.</th>
             <th>Interest</th>
             <th class="text-right">% APR</th>
             <th class="text-right">Payment</th>
@@ -153,8 +153,8 @@
                 <td class="year" rowspan="@(13 - entry.PaymentDate.Month)">@entry.PaymentDate.Year</td>
                     currentYear = entry.PaymentDate.Year;
                 }
-                <td>@entry.PaymentNumber</td>
                 <td>@entry.PaymentDate.ToString("dd MMM")</td>
+                <td>@entry.PaymentNumber</td>
                 <td>@entry.InterestType</td>
                 <td class="text-right">@entry.InterestRate</td>
                 <td class="text-right">@entry.Payment.ToString("F2")</td>
