@@ -131,7 +131,7 @@
         <tr>
             <th>Year</th>
             <th>Pmt No.</th>
-            <th>Month</th>
+            <th>Date</th>
             <th>Interest</th>
             <th class="text-right">% APR</th>
             <th class="text-right">Payment</th>
@@ -147,14 +147,14 @@
         }
         @foreach (var entry in Model.ScheduleEntries)
         {
-            <tr class="@(entry.InterestType == InterestType.Fixed ? "fixed" : "variable")@((entry.Year == now.Year && entry.Month == now.Month) ? " current" : "")">
-                @if(currentYear != entry.Year)
+            <tr class="@(entry.InterestType == InterestType.Fixed ? "fixed" : "variable")@((entry.PaymentDate.Year == now.Year && entry.PaymentDate.Month == now.Month) ? " current" : "")">
+                @if(currentYear != entry.PaymentDate.Year)
                 {
-                <td class="year" rowspan="@(13 - entry.Month)">@entry.Year</td>
-                    currentYear = entry.Year;
+                <td class="year" rowspan="@(13 - entry.PaymentDate.Month)">@entry.PaymentDate.Year</td>
+                    currentYear = entry.PaymentDate.Year;
                 }
                 <td>@entry.PaymentNumber</td>
-                <td>@Model.MonthNames[entry.Month - 1] @entry.Year</td>
+                <td>@entry.PaymentDate.ToString("dd MMM")</td>
                 <td>@entry.InterestType</td>
                 <td class="text-right">@entry.InterestRate</td>
                 <td class="text-right">@entry.Payment.ToString("F2")</td>

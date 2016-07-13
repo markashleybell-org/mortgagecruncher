@@ -36,8 +36,7 @@ namespace mortgagecruncher.Controllers
                 }
 
                 var schedule = new AmortisationSchedule(
-                    startDate.Month,
-                    startDate.Year,
+                    startDate,
                     model.LoanValue,
                     (model.TermYears * 12),
                     model.TermRate,

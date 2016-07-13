@@ -29,8 +29,6 @@ namespace mortgagecruncher.ViewModels
         [Display(Name = "Overpayment amount")]
         public decimal? ExtraPaymentAmount { get; set; } 
 
-        public string[] MonthNames { get; private set; }
-
         public IEnumerable<SelectListItem> OverpaymentIntervals { get; set; }
 
         public IEnumerable<SelectListItem> FixedRatePeriods { get; set; }
@@ -41,21 +39,6 @@ namespace mortgagecruncher.ViewModels
 
         public IndexViewModel()
         {
-            MonthNames = new[] {
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December"
-            };
-
             OverpaymentIntervals = new List<SelectListItem> {
                 new SelectListItem { Value = "", Text = "None" },
                 new SelectListItem { Value = "1", Text = "Monthly" },
