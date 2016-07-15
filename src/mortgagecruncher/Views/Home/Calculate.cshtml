@@ -127,10 +127,11 @@
     {
         <strong>@Model.FixedTermRate% APR fixed for @Model.FixedTermYears</strong> @:years, then reverting to 
     }
-    <strong>@Model.TermRate% SVR</strong>. 
+    <strong>@Model.TermRate% SVR</strong>. <br />
     @if(Model.ExtraPaymentInterval.HasValue && Model.ExtraPaymentAmount.HasValue && Model.ExtraPaymentInterval > 0 && Model.ExtraPaymentAmount > 0) { 
-    @:<br />An overpayment of <strong>@Model.ExtraPaymentAmount.Value.ToString("C")</strong> will be made <strong>every @Model.ExtraPaymentInterval months.</strong>
+    @:An overpayment of <strong>@Model.ExtraPaymentAmount.Value.ToString("C")</strong> will be made <strong>every @Model.ExtraPaymentInterval months.</strong>
     }
+    The loan will be fully paid off in <strong>@Model.ScheduleEntries.Last().PaymentDate.ToString("MMMM yyyy").</strong>
     <a href="#" id="show-form">[Change]</a>
 </p>
 
