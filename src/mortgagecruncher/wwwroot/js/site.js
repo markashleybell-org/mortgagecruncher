@@ -33,7 +33,6 @@
             extraPaymentAmountGroup.hide();
         } else {
             extraPaymentAmountGroup.show();
-            extraPaymentAmount.val('0.00');
         }
     });
 
