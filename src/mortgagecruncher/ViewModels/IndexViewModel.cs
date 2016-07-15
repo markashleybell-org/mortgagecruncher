@@ -28,9 +28,10 @@ namespace mortgagecruncher.ViewModels
         public int? ExtraPaymentInterval { get; set; } 
         [Display(Name = "Overpayment amount")]
         public decimal? ExtraPaymentAmount { get; set; } 
+        [Display(Name = "Overpayments reduce")]
+        public AmortisationScheduleType AmortisationScheduleType { get; set; }  
 
         public IEnumerable<SelectListItem> OverpaymentIntervals { get; set; }
-
         public IEnumerable<SelectListItem> FixedRatePeriods { get; set; }
 
         public IEnumerable<AmortisationScheduleEntry> ScheduleEntries { get; set; }

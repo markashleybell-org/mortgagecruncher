@@ -83,16 +83,27 @@
             <p class="form-control-static"><span asp-validation-for="ExtraPaymentInterval"></span></p>
         </div>
     </div>
-    <div class="form-group" id="extra-payment-amount-group">
-        <label asp-for="ExtraPaymentAmount" class="col-sm-@(cols.Label) control-label"></label>
-        <div class="col-sm-@(cols.Input)">
-            <div class="input-group">
-                <span class="input-group-addon">£</span>
-                <input asp-for="ExtraPaymentAmount" class="form-control" />
+    <div id="extra-payment-amount-group">
+        <div class="form-group">
+            <label asp-for="ExtraPaymentAmount" class="col-sm-@(cols.Label) control-label"></label>
+            <div class="col-sm-@(cols.Input)">
+                <div class="input-group">
+                    <span class="input-group-addon">£</span>
+                    <input asp-for="ExtraPaymentAmount" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-@(cols.Validation)">
+                <p class="form-control-static"><span asp-validation-for="ExtraPaymentAmount"></span></p>
             </div>
         </div>
-        <div class="col-sm-@(cols.Validation)">
-            <p class="form-control-static"><span asp-validation-for="ExtraPaymentAmount"></span></p>
+        <div class="form-group">
+            <label asp-for="AmortisationScheduleType" class="col-sm-@(cols.Label) control-label"></label>
+            <div class="col-sm-@(cols.Input)">
+                <select asp-for="AmortisationScheduleType" asp-items="Html.GetEnumSelectList(typeof(AmortisationScheduleType))" class="form-control"></select>
+            </div>
+            <div class="col-sm-@(cols.Validation)">
+                <p class="form-control-static"><span asp-validation-for="AmortisationScheduleType"></span></p>
+            </div>
         </div>
     </div>
     <script>
