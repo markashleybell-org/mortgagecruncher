@@ -44,13 +44,9 @@ namespace mortgagecruncher.Models
             {
                 e = (extraPaymentInterval > 0 && (i % extraPaymentInterval == 0)) ? extraPaymentAmount : 0;
 
-                var entry = CalculateFixedPaymentAmortisationScheduleEntry(payment, value, fullTermMonths, InterestType.Fixed, fixedTermRate, i, date, balance, e);
+                var entry = CalculateFixedPaymentAmortisationScheduleEntry(payment, fullTermMonths, InterestType.Fixed, fixedTermRate, i, date, balance, e);
                 scheduleEntries.Add(entry);
-                if(e > 0)
-                { 
-                     value = entry.Balance;
-                     fullTermMonths = termMonths - i;
-                }
+
                 balance = entry.Balance;
                 date = date.AddMonths(1);
                 i++;
@@ -67,20 +63,16 @@ namespace mortgagecruncher.Models
             {
                 e = (extraPaymentInterval > 0 && (i % extraPaymentInterval == 0)) ? extraPaymentAmount : 0;
 
-                var entry = CalculateFixedPaymentAmortisationScheduleEntry(payment, remainingValue, variableTermMonths, InterestType.Variable, termRate, i, date, balance, e);
+                var entry = CalculateFixedPaymentAmortisationScheduleEntry(payment, variableTermMonths, InterestType.Variable, termRate, i, date, balance, e);
                 scheduleEntries.Add(entry);
-                if(e > 0)
-                {
-                    remainingValue = entry.Balance;
-                    variableTermMonths = termMonths - i;
-                }
+  
                 balance = entry.Balance;
                 date = date.AddMonths(1);
                 i++;
             }
         }
 
-        private AmortisationScheduleEntry CalculateFixedPaymentAmortisationScheduleEntry(decimal payment, decimal value, int term, InterestType interestType, decimal rate, int paymentNumber, DateTime paymentDate, decimal balance, decimal extraPaymentAmount = 0)
+        private AmortisationScheduleEntry CalculateFixedPaymentAmortisationScheduleEntry(decimal payment, int term, InterestType interestType, decimal rate, int paymentNumber, DateTime paymentDate, decimal balance, decimal extraPaymentAmount = 0)
         {
             var i = MonthlyInterestRate(rate);
 
