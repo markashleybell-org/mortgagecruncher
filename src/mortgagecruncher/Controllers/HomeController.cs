@@ -28,12 +28,22 @@ namespace mortgagecruncher.Controllers
             if(!string.IsNullOrWhiteSpace(model.StartDate))
             { 
                 DateTime startDate;
+                DateTime? overpaymentStartDate = null;
 
                 if(!DateTime.TryParseExact(model.StartDate, "dd/MM/yyyy", null, DateTimeStyles.None, out startDate))
-                {
                     ModelState.AddModelError("StartDate", "Date must be in DD/MM/YYYY format.");
-                    return View(model);
+
+                if(!string.IsNullOrWhiteSpace(model.OverpaymentStartDate))
+                {
+                    DateTime opStart;
+                    if(DateTime.TryParseExact(model.OverpaymentStartDate, "dd/MM/yyyy", null, DateTimeStyles.None, out opStart))
+                        overpaymentStartDate = opStart;
+                    else
+                        ModelState.AddModelError("OverpaymentStartDate ", "Date must be in DD/MM/YYYY format.");
                 }
+
+                if(!ModelState.IsValid)
+                    return View(model);
 
                 var schedule = new AmortisationSchedule(
                     model.AmortisationScheduleType,
@@ -44,6 +54,7 @@ namespace mortgagecruncher.Controllers
                     (model.FixedTermYears.HasValue ? model.FixedTermYears.Value * 12 : 0),
                     model.FixedTermRate ?? 0,
                     model.OverpaymentInterval ?? 0,
+                    overpaymentStartDate,
                     model.OverpaymentAmount ?? 0
                 );
 

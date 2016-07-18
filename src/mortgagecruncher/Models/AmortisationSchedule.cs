@@ -8,22 +8,22 @@ namespace mortgagecruncher.Models
         List<AmortisationScheduleEntry> _scheduleEntries = new List<AmortisationScheduleEntry>();
         public IEnumerable<AmortisationScheduleEntry> ScheduleEntries { get { return _scheduleEntries; } }
 
-        public AmortisationSchedule(AmortisationScheduleType type, DateTime startDate, decimal value, int termMonths, decimal termRate, int fixedTermMonths = 0, decimal fixedTermRate = 0, int overpaymentIntervalMonths = 0, decimal overpaymentAmount = 0)
+        public AmortisationSchedule(AmortisationScheduleType type, DateTime startDate, decimal value, int termMonths, decimal termRate, int fixedTermMonths = 0, decimal fixedTermRate = 0, int overpaymentIntervalMonths = 0, DateTime? overpaymentStartDate = null, decimal overpaymentAmount = 0)
         {
             switch(type)
             {
                 case AmortisationScheduleType.FixedTerm:
-                    CalculateFixedTermAmortisationSchedule(_scheduleEntries, startDate, value, termMonths, termRate, fixedTermMonths, fixedTermRate, overpaymentIntervalMonths, overpaymentAmount);
+                    CalculateFixedTermAmortisationSchedule(_scheduleEntries, startDate, value, termMonths, termRate, fixedTermMonths, fixedTermRate, overpaymentIntervalMonths, overpaymentStartDate, overpaymentAmount);
                     break;
                 case AmortisationScheduleType.FixedPayments:
-                    CalculateFixedPaymentAmortisationSchedule(_scheduleEntries, startDate, value, termMonths, termRate, fixedTermMonths, fixedTermRate, overpaymentIntervalMonths, overpaymentAmount);
+                    CalculateFixedPaymentAmortisationSchedule(_scheduleEntries, startDate, value, termMonths, termRate, fixedTermMonths, fixedTermRate, overpaymentIntervalMonths, overpaymentStartDate, overpaymentAmount);
                     break;
             }
         }
 
         #region Fixed Payments
 
-        private void CalculateFixedPaymentAmortisationSchedule(List<AmortisationScheduleEntry> scheduleEntries, DateTime startDate, decimal value, int termMonths, decimal termRate, int fixedTermMonths = 0, decimal fixedTermRate = 0, int overpaymentInterval = 0, decimal overpaymentAmount = 0)
+        private void CalculateFixedPaymentAmortisationSchedule(List<AmortisationScheduleEntry> scheduleEntries, DateTime startDate, decimal value, int termMonths, decimal termRate, int fixedTermMonths = 0, decimal fixedTermRate = 0, int overpaymentInterval = 0, DateTime? overpaymentStartDate = null, decimal overpaymentAmount = 0)
         {
             int fullTermMonths = termMonths;
             int variableTermMonths = termMonths - fixedTermMonths;
@@ -32,6 +32,7 @@ namespace mortgagecruncher.Models
 
             // Add a month because the first payment won't go out until the following month
             DateTime date = startDate.AddMonths(1);
+            DateTime _overpaymentStartDate = overpaymentStartDate ?? startDate;
 
             int i = 1;
 
@@ -42,7 +43,7 @@ namespace mortgagecruncher.Models
             // Calculate the schedule entries for the fixed term period
             while(Math.Floor(balance) > 0 && i <= fixedTermMonths)
             {
-                e = (overpaymentInterval > 0 && (i % overpaymentInterval == 0)) ? overpaymentAmount : 0;
+                e = CalculateOverpaymentAmount(date, _overpaymentStartDate, i, overpaymentInterval, overpaymentAmount);
 
                 var entry = CalculateFixedPaymentAmortisationScheduleEntry(payment, fullTermMonths, InterestType.Fixed, fixedTermRate, i, date, balance, e);
                 scheduleEntries.Add(entry);
@@ -61,7 +62,7 @@ namespace mortgagecruncher.Models
             // Calculate the schedule entries for the remaining period (or the whole term if there was no fixed period)
             while(Math.Floor(balance) > 0)
             {
-                e = (overpaymentInterval > 0 && (i % overpaymentInterval == 0)) ? overpaymentAmount : 0;
+                e = CalculateOverpaymentAmount(date, _overpaymentStartDate, i, overpaymentInterval, overpaymentAmount);
 
                 var entry = CalculateFixedPaymentAmortisationScheduleEntry(payment, variableTermMonths, InterestType.Variable, termRate, i, date, balance, e);
                 scheduleEntries.Add(entry);
@@ -95,7 +96,7 @@ namespace mortgagecruncher.Models
 
         #region Fixed Term
 
-        private void CalculateFixedTermAmortisationSchedule(List<AmortisationScheduleEntry> scheduleEntries, DateTime startDate, decimal value, int termMonths, decimal termRate, int fixedTermMonths = 0, decimal fixedTermRate = 0, int overpaymentInterval = 0, decimal overpaymentAmount = 0)
+        private void CalculateFixedTermAmortisationSchedule(List<AmortisationScheduleEntry> scheduleEntries, DateTime startDate, decimal value, int termMonths, decimal termRate, int fixedTermMonths = 0, decimal fixedTermRate = 0, int overpaymentInterval = 0, DateTime? overpaymentStartDate = null, decimal overpaymentAmount = 0)
         {
             int fullTermMonths = termMonths;
             int variableTermMonths = termMonths - fixedTermMonths;
@@ -104,13 +105,14 @@ namespace mortgagecruncher.Models
 
             // Add a month because the first payment won't go out until the following month
             DateTime date = startDate.AddMonths(1);
+            DateTime _overpaymentStartDate = overpaymentStartDate ?? startDate;
 
             int i = 1;
 
             // Calculate the schedule entries for the fixed term period
             for(; i <= fixedTermMonths; i++)
             {
-                e = (overpaymentInterval > 0 && (i % overpaymentInterval == 0)) ? overpaymentAmount : 0;
+                e = CalculateOverpaymentAmount(date, _overpaymentStartDate, i, overpaymentInterval, overpaymentAmount);
 
                 var entry = CalculateFixedTermAmortisationScheduleEntry(value, fullTermMonths, InterestType.Fixed, fixedTermRate, i, date, balance, e);
                 scheduleEntries.Add(entry);
@@ -128,7 +130,7 @@ namespace mortgagecruncher.Models
             // Calculate the schedule entries for the remaining period (or the whole term if there was no fixed period)
             for(; i <= termMonths; i++)
             {
-                e = (overpaymentInterval > 0 && (i % overpaymentInterval == 0)) ? overpaymentAmount : 0;
+                e = CalculateOverpaymentAmount(date, _overpaymentStartDate, i, overpaymentInterval, overpaymentAmount);
 
                 var entry = CalculateFixedTermAmortisationScheduleEntry(remainingValue, variableTermMonths, InterestType.Variable, termRate, i, date, balance, e);
                 scheduleEntries.Add(entry);
@@ -174,6 +176,17 @@ namespace mortgagecruncher.Models
         private decimal MonthlyInterestRate(decimal termRate)
         {
             return termRate / 100.00M / 12.00M;
+        }
+
+        private decimal CalculateOverpaymentAmount(DateTime date, DateTime overpaymentStartDate, int paymentNo, int overpaymentInterval, decimal overpaymentAmount)
+        {
+            if(date >= overpaymentStartDate)
+            {
+                if(date == overpaymentStartDate || (overpaymentInterval > 0 && ((paymentNo - 1) % overpaymentInterval == 0)))
+                    return overpaymentAmount;
+            }
+            
+            return 0M;
         }
     }
 }

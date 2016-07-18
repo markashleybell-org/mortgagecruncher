@@ -85,6 +85,15 @@
     </div>
     <div id="overpayment-group">
         <div class="form-group">
+            <label asp-for="OverpaymentStartDate" class="col-sm-@(cols.Label) control-label"></label>
+            <div class="col-sm-@(cols.Input)">
+                <input asp-for="OverpaymentStartDate" class="form-control datepicker" />
+            </div>
+            <div class="col-sm-@(cols.Validation)">
+                <p class="form-control-static"><span asp-validation-for="OverpaymentStartDate"></span></p>
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="OverpaymentAmount" class="col-sm-@(cols.Label) control-label"></label>
             <div class="col-sm-@(cols.Input)">
                 <div class="input-group">
@@ -129,7 +138,7 @@
     }
     <strong>@Model.TermRate% SVR</strong>. <br />
     @if(Model.OverpaymentInterval.HasValue && Model.OverpaymentAmount.HasValue && Model.OverpaymentInterval > 0 && Model.OverpaymentAmount > 0) {
-    @:An overpayment of <strong>@Model.OverpaymentAmount.Value.ToString("C")</strong> will be made <strong>every @Model.OverpaymentInterval months.</strong>
+    @:An overpayment of <strong>@Model.OverpaymentAmount.Value.ToString("C")</strong> will be made <strong>every @Model.OverpaymentInterval months@((!string.IsNullOrWhiteSpace(Model.OverpaymentStartDate)) ? ", starting " + Model.OverpaymentStartDate : "").</strong><br />
     }
     The loan will be fully paid off in <strong>@Model.ScheduleEntries.Last().PaymentDate.ToString("MMMM yyyy").</strong>
     <a href="#" id="show-form">[Change]</a>
