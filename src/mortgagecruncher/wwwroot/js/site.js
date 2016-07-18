@@ -8,7 +8,7 @@
     });
 
     var fixedTermRate = $('#FixedTermRate');
-    var fixedTermRateGroup = $('#fixed-term-rate-group');
+    var fixedTermRateGroup = $('#fixed-term-group');
 
     var fixedTermYears = $('#FixedTermYears');
 
@@ -22,10 +22,10 @@
         }
     });
 
-    var extraPaymentAmount = $('#ExtraPaymentAmount');
-    var extraPaymentAmountGroup = $('#extra-payment-amount-group');
+    var extraPaymentAmount = $('#OverpaymentAmount');
+    var extraPaymentAmountGroup = $('#overpayment-group');
 
-    var extraPaymentInterval = $('#ExtraPaymentInterval');
+    var extraPaymentInterval = $('#OverpaymentInterval');
 
     extraPaymentInterval.on('change keyup', function(e) {
         if($(this).val() === '') {

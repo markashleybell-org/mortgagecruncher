@@ -43,8 +43,8 @@ namespace mortgagecruncher.Controllers
                     model.TermRate,
                     (model.FixedTermYears.HasValue ? model.FixedTermYears.Value * 12 : 0),
                     model.FixedTermRate ?? 0,
-                    model.ExtraPaymentInterval ?? 0,
-                    model.ExtraPaymentAmount ?? 0
+                    model.OverpaymentInterval ?? 0,
+                    model.OverpaymentAmount ?? 0
                 );
 
                 model.ScheduleEntries = schedule.ScheduleEntries;

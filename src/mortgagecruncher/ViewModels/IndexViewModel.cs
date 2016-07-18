@@ -25,9 +25,9 @@ namespace mortgagecruncher.ViewModels
         [Display(Name = "Fixed interest rate")]
         public decimal? FixedTermRate { get; set; } 
         [Display(Name = "Regular overpayments?")]
-        public int? ExtraPaymentInterval { get; set; } 
+        public int? OverpaymentInterval { get; set; } 
         [Display(Name = "Overpayment amount")]
-        public decimal? ExtraPaymentAmount { get; set; } 
+        public decimal? OverpaymentAmount { get; set; } 
         [Display(Name = "Overpayments reduce")]
         public AmortisationScheduleType AmortisationScheduleType { get; set; }  
 
