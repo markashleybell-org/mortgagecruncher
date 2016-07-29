@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 namespace mortgagecruncher
 {
@@ -47,13 +49,20 @@ namespace mortgagecruncher
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            var supportedCultures = new List<CultureInfo> {
+                new CultureInfo("en-GB"),
+                new CultureInfo("en-US")
+            };
+
             app.UseStaticFiles();
 
-            app.UseMvc(routes =>
-            {
+            app.UseRequestLocalization(new RequestLocalizationOptions { SupportedCultures = supportedCultures });
+
+            app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}"
+                );
             });
         }
     }
