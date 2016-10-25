@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using System.IO;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http;
 
 namespace mortgagecruncher
 {
@@ -55,6 +58,13 @@ namespace mortgagecruncher
             };
 
             app.UseStaticFiles();
+
+            // Allow static files within the .well-known directory to allow for automatic SSL renewal
+            app.UseStaticFiles(new StaticFileOptions {
+                ServeUnknownFileTypes = true, // this was needed as IIS would not serve extensionless URLs from the directory without it
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @".well-known")),
+                RequestPath = new PathString("/.well-known")
+            });
 
             app.UseRequestLocalization(new RequestLocalizationOptions { SupportedCultures = supportedCultures });
 
