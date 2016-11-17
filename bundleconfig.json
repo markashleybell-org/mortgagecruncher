@@ -5,7 +5,6 @@
     "outputFileName": "wwwroot/css/site.min.css",
     // An array of relative input file paths. Globbing patterns supported
     "inputFiles": [
-      "wwwroot/css/bootstrap.css",
       "wwwroot/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css",
       "wwwroot/css/site.css"
     ]
