@@ -142,7 +142,7 @@
     }
     <strong>@Model.TermRate% SVR</strong>. 
     @if(Model.OverpaymentInterval.HasValue && Model.OverpaymentAmount.HasValue && Model.OverpaymentInterval > 0 && Model.OverpaymentAmount > 0) {
-    @:An overpayment of <strong>@Model.OverpaymentAmount.Value.ToString("C")</strong> will be made <strong>every @Model.OverpaymentInterval months@((!string.IsNullOrWhiteSpace(Model.OverpaymentStartDate)) ? ", starting " + Model.OverpaymentStartDate : "").</strong><br />
+    @:An overpayment of <strong>@Model.OverpaymentAmount.Value.ToString("C")</strong> will be made <strong>every @Model.OverpaymentInterval months@((!string.IsNullOrWhiteSpace(Model.OverpaymentStartDate)) ? ", starting " + Model.OverpaymentStartDate : "").</strong> 
     }
     Loan paid off in <strong>@Model.ScheduleEntries.Last().PaymentDate.ToString("MMMM yyyy").</strong>
     <a href="#" id="show-form">[Change]</a>
