@@ -2,6 +2,19 @@
     padding-top: 90px;
     padding-bottom: 20px;
     font-family: "Roboto", Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+.navbar {
+    background-color: #125b0c;
+}
+
+.navbar a {
+    color: #fff;
+}
+
+.btn-primary {
+    font-size: 18px;
 }
 
 .body-content {
@@ -56,5 +69,5 @@
 }
 
 #mortgage-summary {
-    font-size: 20px;
+    font-size: 18px;
 }

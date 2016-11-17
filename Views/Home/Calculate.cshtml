@@ -120,7 +120,7 @@
     </script>
     <div class="form-group">
         <div class="col-sm-4 col-sm-offset-@(cols.Label)">
-            <input type="submit" class="btn btn-primary" value="Calculate Payments" />
+            <input type="submit" class="btn btn-primary" value="Calculate Payment Schedule" />
         </div>
     </div>
     <input type="hidden" asp-for="Valid" />
@@ -147,6 +147,7 @@
 }
 
 @if(Model.ScheduleEntries.Count() > 0) {
+<div class="panel panel-default table-responsive">
 <table class="table table-striped table-hover table-condensed">
     <thead>
         <tr>
@@ -186,4 +187,5 @@
         }
     </tbody>
 </table>
+</div>
 }
