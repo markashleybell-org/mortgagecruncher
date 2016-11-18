@@ -103,3 +103,9 @@ footer p {
 .form-variables {
     margin-top: 15px;
 }
+
+.form-info .form-control-static {
+    min-height: 32px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
