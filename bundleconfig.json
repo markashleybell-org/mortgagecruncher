@@ -13,6 +13,8 @@
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
       "wwwroot/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.js",
+      "wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
       "wwwroot/js/site.js"
     ],
     // Optionally specify minification options
