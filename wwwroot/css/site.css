@@ -113,3 +113,46 @@ footer p {
 .field-validation-error {
     color: #cc0000;
 }
+
+@font-face {
+    font-family: 'mortgagecruncher';
+    src: url('../font/mortgagecruncher.eot?44204889');
+    src: url('../font/mortgagecruncher.eot?44204889#iefix') format('embedded-opentype'),
+         url('../font/mortgagecruncher.woff2?44204889') format('woff2'),
+         url('../font/mortgagecruncher.woff?44204889') format('woff'),
+         url('../font/mortgagecruncher.ttf?44204889') format('truetype'),
+         url('../font/mortgagecruncher.svg?44204889#mortgagecruncher') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"]:before, [class*=" icon-"]:before {
+    font-family: "mortgagecruncher";
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    /* opacity: .8; */
+
+    /* For safety - reset parent styles, that can break glyph codes*/
+    font-variant: normal;
+    text-transform: none;
+
+    /* fix buttons height, for twitter bootstrap */
+    line-height: 1em;
+
+    /* Animation center compensation - margins should be symmetric */
+    /* remove if not needed */
+    margin-left: .2em;
+
+    /* Font smoothing. That was taken from TWBS */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+ 
+.icon-home:before { content: '\e800'; }

@@ -27,17 +27,16 @@
     <div class="navbar">
         <div class="container">
             <div class="navbar-header">
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">MortgageCruncher</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><i class="icon-home"></i> MortgageCruncher</a>
             </div>
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
         <footer>
-            <p>&copy; 2016 - <a href="http://markb.co.uk" target="_blank">Mark Ashley Bell</a></p>
+            <p>&copy; 2016 <a href="http://markb.co.uk" target="_blank">Mark Ashley Bell</a></p>
         </footer>
     </div>
-
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
@@ -65,7 +64,6 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
-
     @RenderSection("scripts", required: false)
 </body>
 </html>
