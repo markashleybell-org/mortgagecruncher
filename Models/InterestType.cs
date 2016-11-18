@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace mortgagecruncher.Models
+﻿namespace mortgagecruncher.Models
 {
     public enum InterestType
     {
