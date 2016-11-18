@@ -12,7 +12,7 @@
                 <div class="col-md-@(cols.Input)">
                     <div class="input-group">
                         <span class="input-group-addon">£</span>
-                        <input asp-for="LoanValue" class="form-control" />
+                        <input asp-for="LoanValue" class="form-control" data-val-required="The loan value is required" data-val-number="The loan value must be a number" />
                     </div>
                 </div>
                 <div class="col-md-@(cols.Validation) form-info">
@@ -23,7 +23,7 @@
                 <label asp-for="TermYears" class="col-md-@(cols.Label) control-label"></label>
                 <div class="col-md-@(cols.Input)">
                     <div class="input-group">
-                        <input asp-for="TermYears" class="form-control" />
+                        <input asp-for="TermYears" class="form-control" data-val-required="The mortgage term is required" data-val-number="The mortgage term must be a number" />
                         <span class="input-group-addon">years</span>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
             <div class="form-group">
                 <label asp-for="StartDate" class="col-md-@(cols.Label) control-label"></label>
                 <div class="col-md-@(cols.Input)">
-                    <input asp-for="StartDate" class="form-control datepicker" />
+                    <input asp-for="StartDate" class="form-control datepicker" data-val-required="The mortgage start date (DD/MM/YYYY) is required" />
                 </div>
                 <div class="col-md-@(cols.Validation) form-info">
                     <p class="form-control-static"><span asp-validation-for="StartDate"></span></p>
@@ -44,7 +44,7 @@
                 <label asp-for="TermRate" class="col-md-@(cols.Label) control-label"></label>
                 <div class="col-md-@(cols.Input)">
                     <div class="input-group">
-                        <input asp-for="TermRate" class="form-control" />
+                        <input asp-for="TermRate" class="form-control" data-val-required="The standard interest rate is required" data-val-number="The standard interest rate must be a number" />
                         <span class="input-group-addon">%</span>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                 <label asp-for="FixedTermRate" class="col-md-@(cols.Label) control-label"></label>
                 <div class="col-md-@(cols.Input)">
                     <div class="input-group">
-                        <input asp-for="FixedTermRate" class="form-control" />
+                        <input asp-for="FixedTermRate" class="form-control" data-val-required="The fixed interest rate is required" data-val-number="The fixed interest rate must be a number" />
                         <span class="input-group-addon">%</span>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                 <div class="form-group">
                     <label asp-for="OverpaymentStartDate" class="col-md-@(cols.Label) control-label"></label>
                     <div class="col-md-@(cols.Input)">
-                        <input asp-for="OverpaymentStartDate" class="form-control datepicker" />
+                        <input asp-for="OverpaymentStartDate" class="form-control datepicker" data-val-required="The overpayment start date (DD/MM/YYYY) is required" />
                     </div>
                     <div class="col-md-@(cols.Validation) form-info">
                         <p class="form-control-static"><span asp-validation-for="OverpaymentStartDate"></span></p>
@@ -100,7 +100,7 @@
                     <div class="col-md-@(cols.Input)">
                         <div class="input-group">
                             <span class="input-group-addon">£</span>
-                            <input asp-for="OverpaymentAmount" class="form-control" />
+                            <input asp-for="OverpaymentAmount" class="form-control" data-val-number="The overpayment amount must be a number" />
                         </div>
                     </div>
                     <div class="col-md-@(cols.Validation) form-info">
