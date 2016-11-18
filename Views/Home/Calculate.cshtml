@@ -3,7 +3,7 @@
 @{
     var cols = new { Label = 3, Input = 3, Validation = 6 };
 }
-<div class="panel panel-info" id="form-variables">
+<div class="panel panel-variables" id="form-variables">
     <div class="panel-heading">Please enter some details about your mortgage</div>
     <div class="panel-body">
         <form asp-action="Calculate" asp-controller="Home" method="get" class="form-horizontal form-variables">
@@ -122,7 +122,7 @@
             </script>
             <div class="form-group">
                 <div class="col-sm-@(cols.Input) col-sm-offset-@(cols.Label)">
-                    <input type="submit" class="btn btn-primary btn-lg btn-block" value="Calculate Payment Schedule" />
+                    <input type="submit" class="btn btn-primary btn-lg btn-block btn-main" value="Calculate Payment Schedule" />
                 </div>
             </div>
             <input type="hidden" asp-for="Valid" />

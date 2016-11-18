@@ -12,9 +12,10 @@
     color: #fff;
 }
 
-.btn-lg {
+.btn-main {
     padding: 11px 16px 10px 16px;
     font-size: 17px;
+    background-color: #125b0c;
 }
 
 .body-content {
@@ -88,6 +89,15 @@
 
 footer p {
     font-size: 14px;
+}
+
+.panel-variables {
+  border-color: #ceeac3;
+}
+
+.panel-variables > .panel-heading {
+  background-color: #ceeac3;
+  border-color: #ceeac3;
 }
 
 .form-variables {
