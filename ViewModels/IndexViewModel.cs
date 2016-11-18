@@ -10,10 +10,8 @@ namespace mortgagecruncher.ViewModels
         [Required]
         [Display(Name = "Date of first payment")]
         public string StartDate { get; set; } 
-        [Required(ErrorMessage = "NOPE")]
         [Display(Name = "Loan value")]
         public decimal LoanValue { get; set; } 
-        [Required]
         [Display(Name = "Mortgage term")]
         public int TermYears { get; set; } 
         [Display(Name = "Standard interest rate")]
