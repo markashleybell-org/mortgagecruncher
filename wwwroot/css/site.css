@@ -1,5 +1,4 @@
 ﻿body {
-    padding-top: 90px;
     padding-bottom: 20px;
     font-family: "Roboto", Arial, Helvetica, sans-serif;
     font-size: 16px;
@@ -23,31 +22,45 @@
     padding-right: 15px;
 }
 
-.table-striped > tbody > tr.fixed > td, 
-.table-striped > tbody > tr.fixed > th {
+.table-striped > tbody > tr.fixed {
    background-color: #dff0d8;
 }
 
-.table-striped > tbody > tr.fixed:nth-child(2n+1) > td, 
-.table-striped > tbody > tr.fixed:nth-child(2n+1) > th {
+.table-striped > tbody > tr.fixed:hover > td,
+.table-striped > tbody > tr.fixed:hover + tr > td {
+    border-top-color: #229832;
+}
+
+.table-striped > tbody > tr.fixed:nth-child(2n+1) {
    background-color: #ceeac3;
 }
 
-.table-striped > tbody > tr.variable > td, 
-.table-striped > tbody > tr.variable > th {
+.table-striped > tbody > tr.variable {
    background-color: #e1f1f9;
 }
 
-.table-striped > tbody > tr.variable:nth-child(2n+1) > td, 
-.table-striped > tbody > tr.variable:nth-child(2n+1) > th {
+.table-striped > tbody > tr.variable:hover > td,
+.table-striped > tbody > tr.variable:hover + tr > td {
+    border-top-color: #266f94;
+}
+
+.table-striped > tbody > tr.variable:nth-child(2n+1) {
    background-color: #d9edf7;
 }
 
-.table-striped > tbody > tr.current > td, 
-.table-striped > tbody > tr.current > th,
-.table-striped > tbody > tr.current + tr > td, 
-.table-striped > tbody > tr.current + tr > th {
+.table-striped > tbody > tr.fixed.current > td, 
+.table-striped > tbody > tr.fixed.current > th,
+.table-striped > tbody > tr.fixed.current + tr > td, 
+.table-striped > tbody > tr.fixed.current + tr > th {
    border-top-color: #229832;
+   border-width: 2px;
+}
+
+.table-striped > tbody > tr.variable.current > td, 
+.table-striped > tbody > tr.variable.current > th,
+.table-striped > tbody > tr.variable.current + tr > td, 
+.table-striped > tbody > tr.variable.current + tr > th {
+   border-top-color: #266f94;
    border-width: 2px;
 }
 
