@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace mortgagecruncher.Models
+namespace mortgagecruncher.ViewModels
 {
-    public enum AmortisationScheduleType
+    public enum AmortisationScheduleTypeViewModel
     {
         [Display(Name = "Monthly Payments")]
         FixedTerm,

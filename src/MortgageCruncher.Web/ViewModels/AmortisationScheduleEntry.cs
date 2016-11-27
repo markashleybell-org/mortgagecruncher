@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace mortgagecruncher.Models
+namespace mortgagecruncher.ViewModels
 {
-    public class AmortisationScheduleEntry
+    public class AmortisationScheduleEntryViewModel
     {
         public int PaymentNumber { get; private set; }
         public DateTime PaymentDate { get; private set; }
@@ -13,7 +13,7 @@ namespace mortgagecruncher.Models
         public decimal InterestRate { get; private set; }
         public decimal Balance { get; private set; }
 
-        public AmortisationScheduleEntry(int paymentNumber, DateTime paymentDate, decimal payment, decimal principal, decimal interest, InterestType interestType, decimal interestRate, decimal balance)
+        public AmortisationScheduleEntryViewModel(int paymentNumber, DateTime paymentDate, decimal payment, decimal principal, decimal interest, InterestType interestType, decimal interestRate, decimal balance)
         {
             PaymentNumber = paymentNumber;
             PaymentDate = paymentDate;

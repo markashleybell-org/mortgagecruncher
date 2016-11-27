@@ -1,4 +1,4 @@
-﻿namespace mortgagecruncher.Models
+﻿namespace mortgagecruncher.ViewModels
 {
     public enum InterestType
     {

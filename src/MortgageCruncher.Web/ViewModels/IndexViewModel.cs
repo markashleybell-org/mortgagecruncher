@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using mortgagecruncher.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -27,12 +26,12 @@ namespace mortgagecruncher.ViewModels
         [Display(Name = "Overpayment amount")]
         public decimal? OverpaymentAmount { get; set; } 
         [Display(Name = "Overpayments reduce")]
-        public AmortisationScheduleType AmortisationScheduleType { get; set; }  
+        public AmortisationScheduleTypeViewModel AmortisationScheduleType { get; set; }  
 
         public IEnumerable<SelectListItem> OverpaymentIntervals { get; set; }
         public IEnumerable<SelectListItem> FixedRatePeriods { get; set; }
 
-        public IEnumerable<AmortisationScheduleEntry> ScheduleEntries { get; set; }
+        public IEnumerable<AmortisationScheduleEntryViewModel> ScheduleEntries { get; set; }
 
         public bool Valid { get; set; }
 
@@ -61,7 +60,7 @@ namespace mortgagecruncher.ViewModels
                 new SelectListItem { Value = "10", Text = "10 years" }
             };
 
-            ScheduleEntries = new List<AmortisationScheduleEntry>();
+            ScheduleEntries = new List<AmortisationScheduleEntryViewModel>();
         }
     }
 }

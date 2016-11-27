@@ -110,7 +110,7 @@
                 <div class="form-group">
                     <label asp-for="AmortisationScheduleType" class="col-md-@(cols.Label) control-label"></label>
                     <div class="col-md-@(cols.Input)">
-                        <select asp-for="AmortisationScheduleType" asp-items="Html.GetEnumSelectList(typeof(AmortisationScheduleType))" class="form-control"></select>
+                        <select asp-for="AmortisationScheduleType" asp-items="Html.GetEnumSelectList(typeof(AmortisationScheduleTypeViewModel))" class="form-control"></select>
                     </div>
                     <div class="col-md-@(cols.Validation) form-info">
                         <p class="form-control-static"><span asp-validation-for="AmortisationScheduleType"></span></p>
