@@ -48,7 +48,7 @@ module AmortisationSchedule =
 
     let private calculateFixedTermEntryTotals (mortgageTerm, fixedRateTerm, variableRateTerm, loanValue, termMonths, balance, overPayment, entries) entry = 
         let (payment, interest) = rpi loanValue termMonths entry.InterestRate balance
-        let p2 = if (payment + overPayment) > balance then payment else payment + overPayment
+        let p2 = if (payment + overPayment) <= balance then payment + overPayment else payment
         let updatedBalance = ((balance - p2) + interest)
         let updatedEntry = entry |> updateEntryTotals p2 interest updatedBalance loanValue termMonths
         let updatedTermMonths = if overPayment > 0M then mortgageTerm - entry.PaymentNumber
@@ -65,7 +65,7 @@ module AmortisationSchedule =
     let private calculateFixedPaymentEntryTotals (mortgageTerm, fixedRateTerm, variableRateTerm, loanValue, termMonths, balance, overPayment, entries) entry = 
         let updatedTermMonths = calculateTermMonths mortgageTerm variableRateTerm entry.InterestRate.Type
         let (payment, interest) = rpi loanValue updatedTermMonths entry.InterestRate balance
-        let p2 = if payment + overPayment + interest > balance then balance + interest else payment + overPayment
+        let p2 = if (payment + overPayment) <= balance then payment + overPayment else balance + interest 
         let updatedBalance = ((balance - p2) + interest)
         let updatedEntry = entry |> updateEntryTotals p2 interest updatedBalance loanValue updatedTermMonths
         let updatedLoanValue = if entry.PaymentNumber = fixedRateTerm 
