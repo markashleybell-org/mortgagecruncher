@@ -65,7 +65,7 @@ module AmortisationSchedule =
         let interest = calculateMonthlyInterest monthlyInterestRate balance
         let p2 = if payment + interest > balance then balance + interest else payment
         let updatedBalance = ((balance - p2) + interest)
-        let updatedEntry = entry |> updateEntryTotals p2 interest updatedBalance loanValue entry.PaymentNumber
+        let updatedEntry = entry |> updateEntryTotals p2 interest updatedBalance loanValue termMonths
         let updatedLoanValue = if updatedEntry.PaymentNumber = fixedRateTerm 
                                then updatedBalance 
                                else loanValue
