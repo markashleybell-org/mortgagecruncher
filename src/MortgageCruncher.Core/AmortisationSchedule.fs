@@ -15,6 +15,7 @@ type AmortisationScheduleEntry = {
     PaymentNumber:int
     InterestRate:InterestRate
     Payment:decimal
+    OverPayment:decimal
     Principal:decimal
     Interest:decimal
     Balance:decimal
@@ -54,8 +55,9 @@ module AmortisationSchedule =
     let private updateLoanValue loanValue balance condition = 
         if condition then balance else loanValue
 
-    let private calculateFixedTermEntryTotals (mortgageTerm, fixedRateTerm, variableRateTerm, loanValue, termMonths, balance, overPayment, entries) entry = 
+    let private calculateFixedTermEntryTotals (mortgageTerm, fixedRateTerm, variableRateTerm, loanValue, termMonths, balance, entries) entry = 
         let (payment, interest) = paymentAndInterest loanValue termMonths entry.InterestRate balance
+        let overPayment = entry.OverPayment
         let updatedEntry = entry |> updateEntry balance interest payment overPayment payment loanValue termMonths
         let updatedTermMonths = if overPayment > 0M 
                                 then mortgageTerm - entry.PaymentNumber
@@ -64,40 +66,53 @@ module AmortisationSchedule =
                                     then variableRateTerm
                                     else termMonths
         let updatedLoanValue  = updateLoanValue loanValue updatedEntry.Balance (entry.PaymentNumber = fixedRateTerm || overPayment > 0M)
-        (mortgageTerm, fixedRateTerm, variableRateTerm, updatedLoanValue, updatedTermMonths, updatedEntry.Balance, overPayment, updatedEntry::entries)
+        (mortgageTerm, fixedRateTerm, variableRateTerm, updatedLoanValue, updatedTermMonths, updatedEntry.Balance, updatedEntry::entries)
 
-    let private calculateFixedPaymentEntryTotals (mortgageTerm, fixedRateTerm, variableRateTerm, loanValue, termMonths, balance, overPayment, entries) entry = 
+    let private calculateFixedPaymentEntryTotals (mortgageTerm, fixedRateTerm, variableRateTerm, loanValue, termMonths, balance, entries) entry = 
         let updatedTermMonths = calculateTermMonths mortgageTerm variableRateTerm entry.InterestRate.Type
         let (payment, interest) = paymentAndInterest loanValue updatedTermMonths entry.InterestRate balance
+        let overPayment = entry.OverPayment
         let updatedEntry = entry |> updateEntry balance interest payment overPayment (balance + interest) loanValue updatedTermMonths
         let updatedLoanValue  = updateLoanValue loanValue updatedEntry.Balance (entry.PaymentNumber = fixedRateTerm)
-        (mortgageTerm, fixedRateTerm, variableRateTerm, updatedLoanValue, updatedTermMonths, updatedEntry.Balance, overPayment, updatedEntry::entries)
+        (mortgageTerm, fixedRateTerm, variableRateTerm, updatedLoanValue, updatedTermMonths, updatedEntry.Balance, updatedEntry::entries)
 
-    let private createSchedule mortgageTerm (mortgageStartDate:DateTime) standardInterestRate fixedRateTerm fixedInterestRate = 
-        [1..mortgageTerm] 
-        |> List.map (fun i -> { PaymentDate=mortgageStartDate.AddMonths(i) 
-                                PaymentNumber=i
-                                InterestRate=if i <= fixedRateTerm 
-                                             then fixedInterestRate 
-                                             else standardInterestRate
-                                Payment=0M
-                                Principal=0M
-                                Interest=0M
-                                Balance=0M
-                                LoanValue=0M 
-                                TermMonths=0 })
+    let private calculateOverPayments (overPayment, (nextOverPaymentDate:DateTime), overPaymentInterval, entries) entry = 
+        let (np, e) = if entry.PaymentDate.Date >= nextOverPaymentDate.Date 
+                      then (nextOverPaymentDate.AddMonths(overPaymentInterval), { entry with OverPayment = overPayment }) 
+                      else (nextOverPaymentDate, entry)
+        (overPayment, np, overPaymentInterval, e::entries)
 
-    let create scheduleType loanValue mortgageTerm mortgageStartDate standardInterestRate fixedRateTerm fixedInterestRate overPayment =
+    let private createSchedule mortgageTerm (mortgageStartDate:DateTime) standardInterestRate fixedRateTerm fixedInterestRate overPayment overPaymentStartDate overPaymentInterval =
+        let template = { PaymentDate=DateTime.Now
+                         PaymentNumber=0
+                         InterestRate=fixedInterestRate
+                         Payment=0M
+                         OverPayment=0M
+                         Principal=0M
+                         Interest=0M
+                         Balance=0M
+                         LoanValue=0M 
+                         TermMonths=0 } 
+        
+        let entries = [1..mortgageTerm] 
+                      |> List.map (fun i -> let paymentDate = mortgageStartDate.AddMonths(i)
+                                            { template with PaymentDate=paymentDate
+                                                            PaymentNumber=i
+                                                            InterestRate=if i <= fixedRateTerm 
+                                                                         then fixedInterestRate 
+                                                                         else standardInterestRate })
+        
+        let (_, _, _, updatedEntries) = entries |> List.fold calculateOverPayments (overPayment, overPaymentStartDate, overPaymentInterval, [])
+        updatedEntries |> List.rev
+
+    let create scheduleType loanValue mortgageTerm mortgageStartDate standardInterestRate fixedRateTerm fixedInterestRate overPayment overPaymentStartDate overPaymentInterval =
         let standardRate = { Type=Variable; Rate=standardInterestRate }
         let fixedRate = { Type=Fixed; Rate=fixedInterestRate }
         let variableRateTerm = mortgageTerm - fixedRateTerm 
-        let schedule = createSchedule mortgageTerm mortgageStartDate standardRate fixedRateTerm fixedRate
+        let schedule = createSchedule mortgageTerm mortgageStartDate standardRate fixedRateTerm fixedRate overPayment overPaymentStartDate overPaymentInterval
         let calcFunction = match scheduleType with
                            | FixedTerm -> calculateFixedTermEntryTotals
                            | FixedPayments -> calculateFixedPaymentEntryTotals
-        let initialState = (mortgageTerm, fixedRateTerm, variableRateTerm, loanValue, mortgageTerm, loanValue, overPayment, [])                           
-        let (_, _, _, _, _, _, _, entries) = schedule
-                                           |> List.fold calcFunction initialState
-        entries
-        |> List.rev
-        |> List.filter (fun e -> e.Payment > 0M)
+        let initialState = (mortgageTerm, fixedRateTerm, variableRateTerm, loanValue, mortgageTerm, loanValue, [])                  
+        let (_, _, _, _, _, _, entries) = schedule |> List.fold calcFunction initialState
+        entries |> List.rev |> List.filter (fun e -> e.Payment > 0M)

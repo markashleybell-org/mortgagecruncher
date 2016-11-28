@@ -14,11 +14,17 @@ let standardInterestRate = { Type=Variable; Rate=4.49M }
 let fixedRateTerm = 5 * 12
 let fixedInterestRate = { Type=Fixed; Rate=2.95M }
 let overPayment = 100.00M
+let overPaymentInterval = 1
+let overPaymentStartDate = new DateTime(2016, 1, 1)
 
-let ft = AmortisationSchedule.create FixedTerm loanValue mortgageTerm mortgageStartDate standardInterestRate.Rate fixedRateTerm fixedInterestRate.Rate 0M
-let fto = AmortisationSchedule.create FixedTerm loanValue mortgageTerm mortgageStartDate standardInterestRate.Rate fixedRateTerm fixedInterestRate.Rate overPayment
-let fp = AmortisationSchedule.create FixedPayments loanValue mortgageTerm mortgageStartDate standardInterestRate.Rate fixedRateTerm fixedInterestRate.Rate 0M
-let fpo = AmortisationSchedule.create FixedPayments loanValue mortgageTerm mortgageStartDate standardInterestRate.Rate fixedRateTerm fixedInterestRate.Rate overPayment
+//let schedule = AmortisationSchedule.createSchedule mortgageTerm mortgageStartDate standardInterestRate fixedRateTerm fixedInterestRate overPayment overPaymentStartDate overPaymentInterval
+
+// schedule |> Dump |> ignore
+
+let ft = AmortisationSchedule.create FixedTerm loanValue mortgageTerm mortgageStartDate standardInterestRate.Rate fixedRateTerm fixedInterestRate.Rate 0M DateTime.Now 0
+let fto = AmortisationSchedule.create FixedTerm loanValue mortgageTerm mortgageStartDate standardInterestRate.Rate fixedRateTerm fixedInterestRate.Rate overPayment overPaymentStartDate overPaymentInterval
+let fp = AmortisationSchedule.create FixedPayments loanValue mortgageTerm mortgageStartDate standardInterestRate.Rate fixedRateTerm fixedInterestRate.Rate 0M DateTime.Now 0
+let fpo = AmortisationSchedule.create FixedPayments loanValue mortgageTerm mortgageStartDate standardInterestRate.Rate fixedRateTerm fixedInterestRate.Rate overPayment overPaymentStartDate overPaymentInterval
 
 // Visualisation code
 
