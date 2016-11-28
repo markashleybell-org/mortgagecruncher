@@ -40,10 +40,14 @@ module AmortisationSchedule =
     let private updateEntryTotals payment interest balance loanValue termMonths entry = 
         { entry with Payment=payment; Principal=payment-interest; Interest=interest; Balance=balance; LoanValue=loanValue; TermMonths=termMonths }
 
-    let private calculateFixedTermEntryTotals (mortgageTerm, fixedRateTerm, variableRateTerm, loanValue, termMonths, balance, overPayment, entries) entry = 
-        let monthlyInterestRate = calculateMonthlyInterestRate entry.InterestRate
+    let private rpi loanValue termMonths interestRate balance = 
+        let monthlyInterestRate = calculateMonthlyInterestRate interestRate
         let payment = calculateMonthlyPayment monthlyInterestRate termMonths loanValue
         let interest = calculateMonthlyInterest monthlyInterestRate balance
+        (payment, interest)
+
+    let private calculateFixedTermEntryTotals (mortgageTerm, fixedRateTerm, variableRateTerm, loanValue, termMonths, balance, overPayment, entries) entry = 
+        let (payment, interest) = rpi loanValue termMonths entry.InterestRate balance
         let p2 = if (payment + overPayment) > balance then payment else payment + overPayment
         let updatedBalance = ((balance - p2) + interest)
         let updatedEntry = entry |> updateEntryTotals p2 interest updatedBalance loanValue termMonths
@@ -60,13 +64,11 @@ module AmortisationSchedule =
 
     let private calculateFixedPaymentEntryTotals (mortgageTerm, fixedRateTerm, variableRateTerm, loanValue, termMonths, balance, overPayment, entries) entry = 
         let updatedTermMonths = calculateTermMonths mortgageTerm variableRateTerm entry.InterestRate.Type
-        let monthlyInterestRate = calculateMonthlyInterestRate entry.InterestRate
-        let payment = calculateMonthlyPayment monthlyInterestRate updatedTermMonths loanValue
-        let interest = calculateMonthlyInterest monthlyInterestRate balance
+        let (payment, interest) = rpi loanValue updatedTermMonths entry.InterestRate balance
         let p2 = if payment + overPayment + interest > balance then balance + interest else payment + overPayment
         let updatedBalance = ((balance - p2) + interest)
         let updatedEntry = entry |> updateEntryTotals p2 interest updatedBalance loanValue updatedTermMonths
-        let updatedLoanValue = if updatedEntry.PaymentNumber = fixedRateTerm 
+        let updatedLoanValue = if entry.PaymentNumber = fixedRateTerm 
                                then updatedBalance 
                                else loanValue
         (mortgageTerm, fixedRateTerm, variableRateTerm, updatedLoanValue, updatedTermMonths, updatedBalance, overPayment, updatedEntry::entries)
