@@ -6,7 +6,7 @@
   <Namespace>System</Namespace>
 </Query>
 
-let scheduleType = FixedPayments
+let scheduleType = FixedTerm
 let loanValue = 116250.00M
 let mortgageTerm = 25 * 12
 let mortgageStartDate = new DateTime(2015, 6, 25)
