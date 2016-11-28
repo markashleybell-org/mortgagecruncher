@@ -59,17 +59,18 @@ module AmortisationSchedule =
         (mortgageTerm, fixedRateTerm, variableRateTerm, updatedLoanValue, updatedTermMonths, updatedBalance, overPayment, updatedEntry::entries)
 
     let private calculateFixedPaymentEntryTotals (mortgageTerm, fixedRateTerm, variableRateTerm, loanValue, termMonths, balance, overPayment, entries) entry = 
+        let updatedTermMonths = calculateTermMonths mortgageTerm variableRateTerm entry.InterestRate.Type
         let monthlyInterestRate = calculateMonthlyInterestRate entry.InterestRate
-        let termMonths = calculateTermMonths mortgageTerm variableRateTerm entry.InterestRate.Type
-        let payment = (calculateMonthlyPayment monthlyInterestRate termMonths loanValue) + overPayment
+        
+        let payment = (calculateMonthlyPayment monthlyInterestRate updatedTermMonths loanValue) + overPayment
         let interest = calculateMonthlyInterest monthlyInterestRate balance
         let p2 = if payment + interest > balance then balance + interest else payment
         let updatedBalance = ((balance - p2) + interest)
-        let updatedEntry = entry |> updateEntryTotals p2 interest updatedBalance loanValue termMonths
+        let updatedEntry = entry |> updateEntryTotals p2 interest updatedBalance loanValue updatedTermMonths
         let updatedLoanValue = if updatedEntry.PaymentNumber = fixedRateTerm 
                                then updatedBalance 
                                else loanValue
-        (mortgageTerm, fixedRateTerm, variableRateTerm, updatedLoanValue, termMonths, updatedBalance, overPayment, updatedEntry::entries)
+        (mortgageTerm, fixedRateTerm, variableRateTerm, updatedLoanValue, updatedTermMonths, updatedBalance, overPayment, updatedEntry::entries)
 
     let private createSchedule mortgageTerm (mortgageStartDate:DateTime) standardInterestRate fixedRateTerm fixedInterestRate = 
         [1..mortgageTerm] 
