@@ -99,6 +99,3 @@ module AmortisationSchedule =
         entries
         |> List.rev
         |> List.filter (fun e -> e.Payment > 0M)
-
-    // let (_, _, entries2) = schedule |> List.fold calculateFixedPaymentEntryTotals (loanValue, loanValue, [])
-
