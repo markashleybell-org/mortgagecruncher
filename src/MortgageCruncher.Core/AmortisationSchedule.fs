@@ -42,9 +42,9 @@ module AmortisationSchedule =
 
     let private calculateFixedTermEntryTotals (mortgageTerm, fixedRateTerm, variableRateTerm, loanValue, termMonths, balance, overPayment, entries) entry = 
         let monthlyInterestRate = calculateMonthlyInterestRate entry.InterestRate
-        let payment = (calculateMonthlyPayment monthlyInterestRate termMonths loanValue)
-        let p2 = if (payment + overPayment) > balance then payment else payment + overPayment
+        let payment = calculateMonthlyPayment monthlyInterestRate termMonths loanValue
         let interest = calculateMonthlyInterest monthlyInterestRate balance
+        let p2 = if (payment + overPayment) > balance then payment else payment + overPayment
         let updatedBalance = ((balance - p2) + interest)
         let updatedEntry = entry |> updateEntryTotals p2 interest updatedBalance loanValue termMonths
         let updatedTermMonths = if overPayment > 0M then mortgageTerm - entry.PaymentNumber
@@ -61,10 +61,9 @@ module AmortisationSchedule =
     let private calculateFixedPaymentEntryTotals (mortgageTerm, fixedRateTerm, variableRateTerm, loanValue, termMonths, balance, overPayment, entries) entry = 
         let updatedTermMonths = calculateTermMonths mortgageTerm variableRateTerm entry.InterestRate.Type
         let monthlyInterestRate = calculateMonthlyInterestRate entry.InterestRate
-        
-        let payment = (calculateMonthlyPayment monthlyInterestRate updatedTermMonths loanValue) + overPayment
+        let payment = calculateMonthlyPayment monthlyInterestRate updatedTermMonths loanValue
         let interest = calculateMonthlyInterest monthlyInterestRate balance
-        let p2 = if payment + interest > balance then balance + interest else payment
+        let p2 = if payment + overPayment + interest > balance then balance + interest else payment + overPayment
         let updatedBalance = ((balance - p2) + interest)
         let updatedEntry = entry |> updateEntryTotals p2 interest updatedBalance loanValue updatedTermMonths
         let updatedLoanValue = if updatedEntry.PaymentNumber = fixedRateTerm 
