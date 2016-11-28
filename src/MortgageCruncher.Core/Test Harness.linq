@@ -1,5 +1,5 @@
 <Query Kind="FSharpProgram">
-  <Reference Relative="bin\Debug\netcoreapp1.1\MortgageCruncher.Core.dll">C:\Src\mortgagecruncher\src\MortgageCruncher.Core\bin\Debug\netcoreapp1.1\MortgageCruncher.Core.dll</Reference>
+  <Reference Relative="bin\Debug\netcoreapp1.1\MortgageCruncher.Core.dll">E:\Src\mortgagecruncher\src\MortgageCruncher.Core\bin\Debug\netcoreapp1.1\MortgageCruncher.Core.dll</Reference>
   <NuGetReference Prerelease="true">FSharp.Core</NuGetReference>
   <NuGetReference Prerelease="true">Microsoft.FSharp.Core.netcore</NuGetReference>
   <Namespace>MortgageCruncher.Core</Namespace>
@@ -18,6 +18,14 @@ let overPayment = 0.00M
 let schedule = AmortisationSchedule.create scheduleType loanValue mortgageTerm mortgageStartDate standardInterestRate.Rate fixedRateTerm fixedInterestRate.Rate overPayment
 
 // Visualisation code
+
+let rec last = function
+    | hd :: [] -> hd
+    | hd :: tl -> last tl
+    | _ -> failwith "Empty list."
+
+let headTail (list:AmortisationScheduleEntry list) = 
+    [list.Head; (last list)]
 
 let fmtYear (d:DateTime) = d.ToString("yyyy")
 let fmtDate (d:DateTime) = d.ToString("dd MMM")
