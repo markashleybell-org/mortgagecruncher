@@ -11,7 +11,7 @@ namespace mortgagecruncher.Controllers
     {
         public IActionResult Index()
         {
-            var tmp = AmortisationSchedule.create(AmortisationScheduleType.FixedPayments, 0M, 0, DateTime.Now, 0M, 0, 0M, 0M);
+            var tmp = AmortisationSchedule.create(AmortisationScheduleType.FixedPayments, 0M, 0, DateTime.Now, 0M, 0, 0M, 0M, DateTime.MinValue, 0);
 
             return View("Calculate", new IndexViewModel {
                 StartDate = DateTime.Now.ToString("dd/MM/yyyy"),
@@ -61,9 +61,9 @@ namespace mortgagecruncher.Controllers
                     model.TermRate,
                     (model.FixedTermYears.HasValue ? model.FixedTermYears.Value * 12 : 0),
                     model.FixedTermRate ?? 0,
-                    // model.OverpaymentInterval ?? 0,
-                    // overpaymentStartDate,
-                    model.OverpaymentAmount ?? 0
+                    model.OverpaymentAmount ?? 0,
+                    overpaymentStartDate.HasValue ? overpaymentStartDate.Value : DateTime.MinValue,
+                    model.OverpaymentInterval ?? 0
                 );
 
                 var scheduleEntries = new List<AmortisationScheduleEntryViewModel>();
