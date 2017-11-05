@@ -127,7 +127,6 @@
     <Compile Include="Models\AmortisationScheduleEntryViewModel.cs" />
     <Compile Include="Models\AmortisationScheduleTypeViewModel.cs" />
     <Compile Include="Models\IndexViewModel.cs" />
-    <Compile Include="Models\InterestType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
