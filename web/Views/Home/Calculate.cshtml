@@ -1,0 +1,163 @@
+﻿@model IndexViewModel
+
+@{
+    var cols = new { Label = 3, Input = 3, Validation = 6 };
+}
+
+<div class="panel panel-variables" id="form-variables">
+    <div class="panel-heading">Please enter some details about your mortgage</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("Calculate", "Home", FormMethod.Get, new { @class = "form-horizontal form-variables" })) {
+            <div class="form-group">
+                @Html.LabelFor(m => m.LoanValue, new { @class = "control-label col-md-" + cols.Label })
+                <div class="col-md-@(cols.Input)">
+                    <div class="input-group">
+                        <span class="input-group-addon">£</span>
+                        @Html.TextBoxFor(m => m.LoanValue, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-@(cols.Validation) form-info">
+                    <p class="form-control-static">@Html.ValidationMessageFor(m => m.LoanValue)</p>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.TermYears, new { @class = "control-label col-md-" + cols.Label })
+                <div class="col-md-@(cols.Input)">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.TermYears, new { @class = "form-control" })
+                        <span class="input-group-addon">years</span>
+                    </div>
+                </div>
+                <div class="col-md-@(cols.Validation) form-info">
+                    <p class="form-control-static">@Html.ValidationMessageFor(m => m.TermYears)</p>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.StartDate, new { @class = "control-label col-md-" + cols.Label })
+                <div class="col-md-@(cols.Input)">
+                    @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control datepicker" })
+                </div>
+                <div class="col-md-@(cols.Validation) form-info">
+                    <p class="form-control-static">@Html.ValidationMessageFor(m => m.StartDate)</p>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.TermRate, new { @class = "control-label col-md-" + cols.Label })
+                <div class="col-md-@(cols.Input)">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.TermRate, new { @class = "form-control" })
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+                <div class="col-md-@(cols.Validation) form-info">
+                    <p class="form-control-static">@Html.ValidationMessageFor(m => m.TermRate)</p>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FixedTermYears, new { @class = "control-label col-md-" + cols.Label })
+                <div class="col-md-@(cols.Input)">
+                    @Html.DropDownListFor(m => m.FixedTermYears, Model.FixedRatePeriods, new { @class = "form-control" })
+                </div>
+                <div class="col-md-@(cols.Validation) form-info">
+                    <p class="form-control-static">@Html.ValidationMessageFor(m => m.FixedTermYears)</p>
+                </div>
+            </div>
+            <div class="form-group" id="fixed-term-group">
+                @Html.LabelFor(m => m.FixedTermRate, new { @class = "control-label col-md-" + cols.Label })
+                <div class="col-md-@(cols.Input)">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.FixedTermRate, new { @class = "form-control" })
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+                <div class="col-md-@(cols.Validation) form-info">
+                    <p class="form-control-static">@Html.ValidationMessageFor(m => m.FixedTermRate)</p>
+                </div>
+            </div>
+            @*<script>
+                document.getElementById('fixed-term-group').style.display = document.getElementById('FixedTermYears').value !== '' ? 'block' : 'none';
+            </script>*@
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.AmortisationScheduleType, new { @class = "control-label col-md-" + cols.Label })
+                <div class="col-md-@(cols.Input)">
+                    @Html.EnumDropDownListFor(m => m.AmortisationScheduleType, new { @class = "form-control" })
+                </div>
+                <div class="col-md-@(cols.Validation) form-info">
+                    <p class="form-control-static">@Html.ValidationMessageFor(m => m.AmortisationScheduleType)</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-@(cols.Input + 1) col-lg-@(cols.Input) col-md-offset-@(cols.Label)">
+                    <input type="submit" class="btn btn-primary btn-lg btn-block btn-main" value="Calculate Payment Schedule" />
+                </div>
+            </div>
+            <input type="hidden" asp-for="Valid" />
+            <input type="hidden" id="refresh" value="no" />
+        }
+    </div>
+</div>
+
+@if (Model.Valid)
+{
+    <script>
+        document.getElementById('form-variables').style.display = 'none';
+    </script>
+    <p id="mortgage-summary">
+        <strong>@Model.LoanValue.ToString("C")</strong> repayable over <strong>@Model.TermYears</strong> years at
+        @if (Model.FixedTermYears.HasValue)
+        {
+            <strong>@Model.FixedTermRate% APR fixed for @Model.FixedTermYears</strong> @:years, then reverting to
+        }
+        <strong>@Model.TermRate% SVR</strong>.
+
+        Loan paid off in <strong>@Model.ScheduleEntries.Last().PaymentDate.ToString("MMMM yyyy").</strong>
+        <a href="#" id="show-form">[Change]</a>
+    </p>
+}
+
+@if (Model.ScheduleEntries.Count() > 0)
+{
+    <div class="panel panel-default table-responsive">
+        <table class="table table-striped table-condensed">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Date</th>
+                    <th>Pmt. No.</th>
+                    <th>Interest</th>
+                    <th class="text-right">% APR</th>
+                    <th class="text-right">Payment</th>
+                    <th class="text-right">Interest</th>
+                    <th class="text-right">Principal</th>
+                    <th class="text-right">Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var now = DateTime.Now;
+                    var currentYear = 0;
+                }
+                @foreach (var entry in Model.ScheduleEntries)
+                {
+                    <tr class="@(entry.InterestRateType == InterestRateType.Fixed ? "fixed" : "variable")@((entry.PaymentDate.Year == now.Year && entry.PaymentDate.Month == now.Month) ? " current" : "")">
+                        @if (currentYear != entry.PaymentDate.Year)
+                        {
+                            <td class="year" rowspan="@(13 - entry.PaymentDate.Month)">@entry.PaymentDate.Year</td>
+                            currentYear = entry.PaymentDate.Year;
+                        }
+                        <td>@entry.PaymentDate.ToString("dd MMM")</td>
+                        <td>@entry.PaymentNumber</td>
+                        <td>@entry.InterestRateType</td>
+                        <td class="text-right">@entry.InterestRate</td>
+                        <td class="text-right">@entry.Payment.ToString("F2")</td>
+                        <td class="text-right">@entry.Interest.ToString("F2")</td>
+                        <td class="text-right">@entry.Principal.ToString("F2")</td>
+                        <td class="text-right">@entry.Balance.ToString("F2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
