@@ -9,13 +9,10 @@ namespace web.Models
         [Required]
         [Display(Name = "Date of first payment")]
         public string StartDate { get; set; }
-        [Required]
         [Display(Name = "Loan value")]
         public double LoanValue { get; set; }
-        [Required]
         [Display(Name = "Mortgage term")]
         public int TermYears { get; set; }
-        [Required]
         [Display(Name = "Standard interest rate")]
         public double TermRate { get; set; }
         [Display(Name = "Fixed rate period")]
