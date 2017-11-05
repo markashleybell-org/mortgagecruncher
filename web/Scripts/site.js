@@ -22,20 +22,6 @@
         }
     });
 
-    var extraPaymentAmount = $('#OverpaymentAmount');
-    var extraPaymentAmountGroup = $('#overpayment-group');
-
-    var extraPaymentInterval = $('#OverpaymentInterval');
-
-    extraPaymentInterval.on('change keyup', function (e) {
-        if ($(this).val() === '') {
-            extraPaymentAmount.val('');
-            extraPaymentAmountGroup.hide();
-        } else {
-            extraPaymentAmountGroup.show();
-        }
-    });
-
     var refresh = $('#refresh');
 
     if (refresh.val() === 'yes') {
