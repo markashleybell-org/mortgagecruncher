@@ -8,9 +8,9 @@
     background-color: #125b0c;
 }
 
-    .navbar a {
-        color: #fff;
-    }
+.navbar a {
+    color: #fff;
+}
 
 .btn-main {
     padding: 11px 16px 10px 16px;
@@ -27,27 +27,27 @@
     background-color: #dff0d8;
 }
 
-    .table-striped > tbody > tr.fixed:hover > td,
-    .table-striped > tbody > tr.fixed:hover + tr > td {
-        border-top-color: #229832;
-    }
+.table-striped > tbody > tr.fixed:hover > td,
+.table-striped > tbody > tr.fixed:hover + tr > td {
+    border-top-color: #229832;
+}
 
-    .table-striped > tbody > tr.fixed:nth-child(2n+1) {
-        background-color: #ceeac3;
-    }
+.table-striped > tbody > tr.fixed:nth-child(2n+1) {
+    background-color: #ceeac3;
+}
 
 .table-striped > tbody > tr.variable {
     background-color: #e1f1f9;
 }
 
-    .table-striped > tbody > tr.variable:hover > td,
-    .table-striped > tbody > tr.variable:hover + tr > td {
-        border-top-color: #266f94;
-    }
+.table-striped > tbody > tr.variable:hover > td,
+.table-striped > tbody > tr.variable:hover + tr > td {
+    border-top-color: #266f94;
+}
 
-    .table-striped > tbody > tr.variable:nth-child(2n+1) {
-        background-color: #d9edf7;
-    }
+.table-striped > tbody > tr.variable:nth-child(2n+1) {
+    background-color: #d9edf7;
+}
 
 .table-striped > tbody > tr.fixed.current > td,
 .table-striped > tbody > tr.fixed.current > th,
@@ -95,10 +95,10 @@ footer p {
     border-color: #ceeac3;
 }
 
-    .panel-variables > .panel-heading {
-        background-color: #ceeac3;
-        border-color: #ceeac3;
-    }
+.panel-variables > .panel-heading {
+    background-color: #ceeac3;
+    border-color: #ceeac3;
+}
 
 .form-variables {
     margin-top: 15px;
