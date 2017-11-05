@@ -4,7 +4,7 @@
     var cols = new { Label = 3, Input = 3, Validation = 6 };
 }
 
-@using (Html.BeginForm("Calculate", "Home", FormMethod.Get, new { @class = "form-horizontal form-variables" }))
+@using (Html.BeginForm("Calculate", "Home", FormMethod.Post, new { @class = "form-horizontal form-variables" }))
 {
     <div class="panel panel-variables" id="form-variables">
         <div class="panel-heading">Please enter some details about your mortgage</div>
@@ -78,7 +78,6 @@
             <script>
                 document.getElementById('fixed-term-group').style.display = document.getElementById('FixedTermYears').value !== '' ? 'block' : 'none';
             </script>
-
             <div class="form-group">
                 @Html.LabelFor(m => m.AmortisationScheduleType, new { @class = "control-label col-md-" + cols.Label })
                 <div class="col-md-@(cols.Input)">
@@ -88,7 +87,6 @@
                     <p class="form-control-static">@Html.ValidationMessageFor(m => m.AmortisationScheduleType)</p>
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="col-md-@(cols.Input + 1) col-lg-@(cols.Input) col-md-offset-@(cols.Label)">
                     <input type="submit" class="btn btn-primary btn-lg btn-block btn-main" value="Calculate Payment Schedule" />
@@ -130,6 +128,7 @@
                             <th>Interest</th>
                             <th class="text-right">% APR</th>
                             <th class="text-right">Payment</th>
+                            <th class="text-right" style="width: 100px;">Extra</th>
                             <th class="text-right">Interest</th>
                             <th class="text-right">Principal</th>
                             <th class="text-right">Balance</th>
@@ -139,9 +138,12 @@
                         @{
                             var now = DateTime.Now;
                             var currentYear = 0;
+                            var idx = 0;
                         }
                         @foreach (var entry in Model.ScheduleEntries)
-                    {
+                        {
+                            var overPayment = Model.OverPayments.Count > idx ? Model.OverPayments[idx] : 0.00;
+
                             <tr class="@(entry.InterestRateType == InterestRateType.Fixed ? "fixed" : "variable")@((entry.PaymentDate.Year == now.Year && entry.PaymentDate.Month == now.Month) ? " current" : "")">
                                 @if (currentYear != entry.PaymentDate.Year)
                                 {
@@ -153,15 +155,17 @@
                                 <td>@entry.InterestRateType</td>
                                 <td class="text-right">@entry.InterestRate</td>
                                 <td class="text-right">@entry.Payment.ToString("F2")</td>
+                                <td class="text-right"><input type="text" name="OverPayments" value="@overPayment" class="form-control input-sm" /></td>
                                 <td class="text-right">@entry.Interest.ToString("F2")</td>
                                 <td class="text-right">@entry.Principal.ToString("F2")</td>
                                 <td class="text-right">@entry.Balance.ToString("F2")</td>
                             </tr>
+
+                            idx++;
                         }
                     </tbody>
                 </table>
             </div>
         </div>
     }
-
 }

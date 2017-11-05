@@ -42,7 +42,7 @@ namespace web.Controllers
                                  ? ScheduleType.FixedPayments
                                  : ScheduleType.FixedTerm;
 
-                var overPayments = new Dictionary<double, double> { };
+                var overPayments = model.OverPayments.Select((amt, idx) => new { idx = (double)(idx + 1), amt = (amt * -1) }).ToDictionary(x => x.idx, x => x.amt);
 
                 var schedule = AmortisationSchedule.create(
                     model.TermYears,

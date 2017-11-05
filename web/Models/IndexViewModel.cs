@@ -26,6 +26,8 @@ namespace web.Models
 
         public IEnumerable<AmortisationScheduleEntryViewModel> ScheduleEntries { get; set; }
 
+        public IList<double> OverPayments { get; set; }
+
         public bool Valid { get; set; }
 
         public IndexViewModel()
@@ -38,6 +40,8 @@ namespace web.Models
             };
 
             ScheduleEntries = new List<AmortisationScheduleEntryViewModel>();
+
+            OverPayments = new List<double>();
         }
     }
 }
