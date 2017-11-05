@@ -11,7 +11,7 @@ namespace web.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index(IndexViewModel model)
+        public ActionResult Index()
         {
             return View(nameof(Calculate), new IndexViewModel {
                 StartDate = DateTime.Now.ToString("dd/MM/yyyy"),
@@ -32,9 +32,7 @@ namespace web.Controllers
 
             if (!string.IsNullOrWhiteSpace(model.StartDate))
             {
-                DateTime startDate;
-
-                if (!DateTime.TryParseExact(model.StartDate, "dd/MM/yyyy", null, DateTimeStyles.None, out startDate))
+                if (!DateTime.TryParseExact(model.StartDate, "dd/MM/yyyy", null, DateTimeStyles.None, out var startDate))
                     ModelState.AddModelError("StartDate", "Date must be in DD/MM/YYYY format.");
 
                 if (!ModelState.IsValid)
@@ -67,26 +65,6 @@ namespace web.Controllers
                         balance: bal
                     );
                 });
-
-                //var scheduleEntries = new List<AmortisationScheduleEntryViewModel>();
-
-                //foreach (var entry in schedule)
-                //{
-                //    var interestType = entry.InterestRate.Type == InterestRateType.Fixed
-                //                     ? InterestType.Fixed
-                //                     : InterestType.Variable;
-                //    var scheduleEntry = new AmortisationScheduleEntryViewModel(
-                //        paymentNumber: entry.PaymentNumber,
-                //        paymentDate: entry.PaymentDate,
-                //        payment: entry.Payment,
-                //        principal: entry.Principal,
-                //        interest: entry.Interest,
-                //        interestType: interestType,
-                //        interestRate: entry.InterestRate.Rate,
-                //        balance: entry.Balance
-                //    );
-                //    scheduleEntries.Add(scheduleEntry);
-                //}
 
                 model.ScheduleEntries = schedule;
             }
