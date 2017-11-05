@@ -74,9 +74,9 @@
                     <p class="form-control-static">@Html.ValidationMessageFor(m => m.FixedTermRate)</p>
                 </div>
             </div>
-            @*<script>
+            <script>
                 document.getElementById('fixed-term-group').style.display = document.getElementById('FixedTermYears').value !== '' ? 'block' : 'none';
-            </script>*@
+            </script>
 
             <div class="form-group">
                 @Html.LabelFor(m => m.AmortisationScheduleType, new { @class = "control-label col-md-" + cols.Label })
