@@ -19,7 +19,7 @@ namespace web.Models
         public int? FixedTermYears { get; set; }
         [Display(Name = "Fixed interest rate")]
         public double? FixedTermRate { get; set; }
-        [Display(Name = "Overpayments reduce")]
+        [Display(Name = "Extra payments reduce")]
         public AmortisationScheduleTypeViewModel AmortisationScheduleType { get; set; }
 
         public IEnumerable<SelectListItem> FixedRatePeriods { get; set; }
