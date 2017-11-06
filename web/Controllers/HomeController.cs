@@ -17,8 +17,8 @@ namespace web.Controllers
         public ActionResult Index()
         {
             var model = new IndexViewModel {
-                StartDate = new DateTime(2015, 7, 25).ToString("dd/MM/yyyy"), // DateTime.Now.ToString("dd/MM/yyyy"),
-                LoanValue = 116250,
+                StartDate = DateTime.Now.ToString("dd/MM/yyyy"),
+                LoanValue = 100000,
                 TermYears = 25,
                 TermRate = 4.49,
                 FixedTermYears = 5,
