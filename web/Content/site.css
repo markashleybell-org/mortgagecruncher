@@ -24,6 +24,19 @@
     padding-right: 15px;
 }
 
+/*.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+    border: none;
+}
+
+tr {
+    border-top: solid 1px #999;
+}*/
+
 .table-striped > tbody > tr.fixed {
     background-color: #dff0d8;
 }
@@ -69,6 +82,21 @@
 .table-condensed > tbody > tr > td,
 .table-condensed > thead > tr > th {
     padding: 5px 15px;
+}
+
+td > .input-sm {
+    height: 20px;
+    margin-top: 1px;
+    text-align: right;
+    padding: 5px 6px;
+}
+
+th.op {
+    width: 100px;
+}
+
+td.op {
+    padding-right: 24px !important;
 }
 
 .popover {
