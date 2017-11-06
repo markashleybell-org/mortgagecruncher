@@ -57,9 +57,9 @@ namespace web.Controllers
                     return new AmortisationScheduleEntryViewModel(
                         paymentNumber: per,
                         paymentDate: startDate.AddMonths(i),
-                        payment: pmt,
-                        principal: ppmt,
-                        interest: ipmt,
+                        payment: Math.Abs(pmt),
+                        principal: Math.Abs(ppmt),
+                        interest: Math.Abs(ipmt),
                         interestRateType: rate.Type,
                         interestRate: rate.APR,
                         balance: bal
