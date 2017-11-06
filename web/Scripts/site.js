@@ -35,6 +35,7 @@
     var summary = $('#mortgage-summary');
 
     $('#show-form').on('click', function (e) {
+        e.preventDefault();
         form.show();
         summary.hide();
     });
