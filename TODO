@@ -1,5 +1,4 @@
 Override validation messages for numeric (https://stackoverflow.com/a/18392554/43140)
 Figure out date validation
 Close/cancel button when form is opened
-Store data in cookie (now that GET params can't be used)
 Allow easy entry of regular extra payments
