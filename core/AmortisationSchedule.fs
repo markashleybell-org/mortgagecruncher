@@ -112,14 +112,13 @@ module AmortisationSchedule =
             let variableRatePeriodPayment = 
                 (Financial.Pmt(variableRateMonthlyInterest, numberOfVariablePayments, balanceAtEndOfFixedPeriod, fv, typ))
 
-            let schedule1 = schedulePeriods 
-                            |> List.take (int numberOfFixedPayments)
-                            |> List.mapFold (scheduleEntryFixedPayment fixedRatePeriodPayment) principal
-                            |> fst
+            let (schedule1, bal) = schedulePeriods 
+                                   |> List.take (int numberOfFixedPayments)
+                                   |> List.mapFold (scheduleEntryFixedPayment fixedRatePeriodPayment) principal
 
             let schedule2 = schedulePeriods 
                             |> List.skip (int numberOfFixedPayments)
-                            |> List.mapFold (scheduleEntryFixedPayment variableRatePeriodPayment) balanceAtEndOfFixedPeriod 
+                            |> List.mapFold (scheduleEntryFixedPayment variableRatePeriodPayment) bal 
                             |> fst
 
             schedule1 @ schedule2 |> List.filter (fun (_, _, pmt, _, _, _) -> pmt <= 0.00) |> Array.ofList
