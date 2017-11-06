@@ -7,7 +7,7 @@
         <add key="UnobtrusiveJavaScriptEnabled" value="true"/>
     </appSettings>
     <system.web>
-        <compilation debug="true" targetFramework="4.7"/>
+        <compilation debug="false" targetFramework="4.7"/>
         <httpRuntime targetFramework="4.7"/>
         <globalization culture="en-GB" />
     </system.web>
@@ -49,6 +49,17 @@
     </runtime>
     <system.webServer>
         <validation validateIntegratedModeConfiguration="false"/>
+        <rewrite>
+            <rules>
+                <rule name="Canonical Host Name" stopProcessing="true">
+                    <match url="(.*)" />
+                    <conditions>
+                        <add input="{HTTP_HOST}" pattern="^mortgagecruncher\.uk$" negate="true" />
+                    </conditions>
+                    <action type="Redirect" url="https://mortgagecruncher.uk/{R:1}" />
+                </rule>
+            </rules>
+        </rewrite>
     </system.webServer>
     <system.codedom>
         <compilers>
