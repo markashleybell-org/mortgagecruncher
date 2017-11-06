@@ -151,8 +151,8 @@
                                 }
                                 <td>@entry.PaymentNumber</td>
                                 <td>@entry.PaymentDate.ToString("dd MMM")</td>
-                                <td class="op"><input type="text" name="OverPayments" value="@overPayment" class="form-control input-sm" /></td>
-                                <td class="text-right">@entry.InterestRate</td>
+                                <td class="op"><input type="text" name="OverPayments" value="@overPayment.ToString("F2")" class="form-control input-sm" /></td>
+                                <td class="text-right">@entry.InterestRate.ToString("F2")</td>
                                 <td class="text-right">@entry.Payment.ToString("F2")</td>
                                 <td class="text-right">@entry.Interest.ToString("F2")</td>
                                 <td class="text-right">@entry.Principal.ToString("F2")</td>
