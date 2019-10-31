@@ -173,3 +173,7 @@ footer p {
 .icon-home:before {
     content: '\e800';
 }
+
+.table-responsive {
+    overflow-x: hidden;
+}
