@@ -118,52 +118,50 @@
     if (Model.ScheduleEntries.Count() > 0)
     {
         <div class="panel panel-default">
-            <div class="table-responsive">
-                <table class="table table-striped table-condensed">
-                    <thead>
-                        <tr>
-                            <th>Year</th>
-                            <th>Pmt.</th>
-                            <th>Date</th>
-                            <th class="op">Extra</th>
-                            <th class="text-right">% APR</th>
-                            <th class="text-right">Payment</th>
-                            <th class="text-right">Interest</th>
-                            <th class="text-right">Principal</th>
-                            <th class="text-right">Balance</th>
+            <table class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>Pmt.</th>
+                        <th>Date</th>
+                        <th class="op">Extra</th>
+                        <th class="text-right">% APR</th>
+                        <th class="text-right">Payment</th>
+                        <th class="text-right">Interest</th>
+                        <th class="text-right">Principal</th>
+                        <th class="text-right">Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var now = DateTime.Now;
+                        var currentYear = 0;
+                        var idx = 0;
+                    }
+                    @foreach (var entry in Model.ScheduleEntries)
+                    {
+                        var overPayment = Model.OverPayments.Count > idx ? Model.OverPayments[idx] : 0.00;
+
+                        <tr class="@(entry.InterestRateType == InterestRateType.Fixed ? "fixed" : "variable")@((entry.PaymentDate.Year == now.Year && entry.PaymentDate.Month == now.Month) ? " current" : "")">
+                            @if (currentYear != entry.PaymentDate.Year)
+                            {
+                                <td class="year" rowspan="@(13 - entry.PaymentDate.Month)">@entry.PaymentDate.Year</td>
+                                currentYear = entry.PaymentDate.Year;
+                            }
+                            <td>@entry.PaymentNumber</td>
+                            <td>@entry.PaymentDate.ToString("dd MMM")</td>
+                            <td class="op"><input type="text" name="OverPayments" value="@overPayment.ToString("F2")" class="form-control input-sm" /></td>
+                            <td class="text-right">@entry.InterestRate.ToString("F2")</td>
+                            <td class="text-right">@entry.Payment.ToString("F2")</td>
+                            <td class="text-right">@entry.Interest.ToString("F2")</td>
+                            <td class="text-right">@entry.Principal.ToString("F2")</td>
+                            <td class="text-right">@entry.Balance.ToString("F2")</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @{
-                            var now = DateTime.Now;
-                            var currentYear = 0;
-                            var idx = 0;
-                        }
-                        @foreach (var entry in Model.ScheduleEntries)
-                        {
-                            var overPayment = Model.OverPayments.Count > idx ? Model.OverPayments[idx] : 0.00;
 
-                            <tr class="@(entry.InterestRateType == InterestRateType.Fixed ? "fixed" : "variable")@((entry.PaymentDate.Year == now.Year && entry.PaymentDate.Month == now.Month) ? " current" : "")">
-                                @if (currentYear != entry.PaymentDate.Year)
-                                {
-                                    <td class="year" rowspan="@(13 - entry.PaymentDate.Month)">@entry.PaymentDate.Year</td>
-                                    currentYear = entry.PaymentDate.Year;
-                                }
-                                <td>@entry.PaymentNumber</td>
-                                <td>@entry.PaymentDate.ToString("dd MMM")</td>
-                                <td class="op"><input type="text" name="OverPayments" value="@overPayment.ToString("F2")" class="form-control input-sm" /></td>
-                                <td class="text-right">@entry.InterestRate.ToString("F2")</td>
-                                <td class="text-right">@entry.Payment.ToString("F2")</td>
-                                <td class="text-right">@entry.Interest.ToString("F2")</td>
-                                <td class="text-right">@entry.Principal.ToString("F2")</td>
-                                <td class="text-right">@entry.Balance.ToString("F2")</td>
-                            </tr>
-
-                            idx++;
-                        }
-                    </tbody>
-                </table>
-            </div>
+                        idx++;
+                    }
+                </tbody>
+            </table>
         </div>
     }
 }
