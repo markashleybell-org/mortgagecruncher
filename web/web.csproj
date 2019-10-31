@@ -138,6 +138,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\mortgagecruncher.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -156,6 +157,11 @@
     <Content Include="Content\bootstrap-datepicker3.css.map" />
     <Content Include="Content\bootstrap-datepicker.standalone.css.map" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
+    <Content Include="fonts\mortgagecruncher.eot" />
+    <Content Include="fonts\mortgagecruncher.ttf" />
+    <Content Include="fonts\mortgagecruncher.woff" />
+    <Content Include="fonts\mortgagecruncher.woff2" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
