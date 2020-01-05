@@ -306,3 +306,6 @@ OpenCover/
 
 # Local web config
 web/Web.config
+
+# Development settings
+appsettings.*.json

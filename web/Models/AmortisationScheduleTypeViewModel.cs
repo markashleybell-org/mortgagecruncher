@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace web.Models
 {
@@ -6,6 +6,7 @@ namespace web.Models
     {
         [Display(Name = "Monthly Payments")]
         FixedTerm,
+
         [Display(Name = "Mortgage Term")]
         FixedPayments
     }

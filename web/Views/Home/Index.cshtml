@@ -81,7 +81,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.AmortisationScheduleType, new { @class = "control-label col-md-" + cols.Label })
                 <div class="col-md-@(cols.Input)">
-                    @Html.EnumDropDownListFor(m => m.AmortisationScheduleType, new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.AmortisationScheduleType, Html.GetEnumSelectList(typeof(AmortisationScheduleTypeViewModel)), new { @class = "form-control" })
                 </div>
                 <div class="col-md-@(cols.Validation) form-info">
                     <p class="form-control-static">@Html.ValidationMessageFor(m => m.AmortisationScheduleType)</p>

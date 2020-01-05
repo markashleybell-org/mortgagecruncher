@@ -1,18 +1,22 @@
-﻿using core;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+using core;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using web.Models;
 
 namespace web.Controllers
 {
     public class HomeController : Controller
     {
-        public const string _cookieName = "mc_settings";
+        private readonly string _cookieName = "mc_settings";
+        private readonly HttpContext _ctx;
+
+        public HomeController(IHttpContextAccessor httpContextAccessor) =>
+            _ctx = httpContextAccessor.HttpContext;
 
         public ActionResult Index()
         {
@@ -25,12 +29,15 @@ namespace web.Controllers
                 FixedTermRate = 2.95
             };
 
-            var cookie = HttpContext.Request.Cookies[_cookieName];
+            var cookieValue = _ctx.Request.Cookies[_cookieName];
 
-            if (cookie != null)
+            if (cookieValue is object)
             {
-                model = JsonConvert.DeserializeObject<IndexViewModel>(cookie.Value);
-                model.ScheduleEntries = GetSchedule(model);
+                var mortgageData = JsonConvert.DeserializeObject<MortgageData>(cookieValue);
+
+                model.PopulateFrom(mortgageData);
+
+                model.ScheduleEntries = GetSchedule(mortgageData);
             }
 
             return View(model);
@@ -40,49 +47,60 @@ namespace web.Controllers
         public ActionResult Index(IndexViewModel model)
         {
             if (!ModelState.IsValid)
+            {
                 return View(model);
+            }
 
             model.Valid = true;
 
             if (!string.IsNullOrWhiteSpace(model.StartDate))
             {
                 if (!DateTime.TryParseExact(model.StartDate, "dd/MM/yyyy", null, DateTimeStyles.None, out var startDate))
+                {
                     ModelState.AddModelError("StartDate", "Start date must be in DD/MM/YYYY format.");
+                }
 
                 if (!ModelState.IsValid)
+                {
                     return View(model);
-                
-                var cookie = HttpContext.Request.Cookies[_cookieName] ?? new HttpCookie(_cookieName);
-                cookie.HttpOnly = true;
-                cookie.Secure = true;
-                cookie.Value = JsonConvert.SerializeObject(model);
-                cookie.Expires = DateTime.Now.AddDays(365);
-                HttpContext.Response.Cookies.Add(cookie);
+                }
 
-                model.ScheduleEntries = GetSchedule(model);
+                var cookieOptions = new CookieOptions {
+                    Expires = DateTime.Now.AddDays(365)
+                };
+
+                var mortgageData = model.AsMortgageData();
+
+                _ctx.Response.Cookies.Append(_cookieName, JsonConvert.SerializeObject(mortgageData), cookieOptions);
+
+                model.ScheduleEntries = GetSchedule(mortgageData);
             }
 
             return View(model);
         }
 
-        private IEnumerable<AmortisationScheduleEntryViewModel> GetSchedule(IndexViewModel model)
+        private IEnumerable<AmortisationScheduleEntryViewModel> GetSchedule(MortgageData mortgageData)
         {
-            if (!DateTime.TryParseExact(model.StartDate, "dd/MM/yyyy", null, DateTimeStyles.None, out var startDate))
+            if (!DateTime.TryParseExact(mortgageData.StartDate, "dd/MM/yyyy", null, DateTimeStyles.None, out var startDate))
+            {
                 throw new Exception("Start date must be in DD/MM/YYYY format.");
+            }
 
-            var scheduleType = model.AmortisationScheduleType == AmortisationScheduleTypeViewModel.FixedPayments
-                             ? ScheduleType.FixedPayments
-                             : ScheduleType.FixedTerm;
+            var scheduleType = mortgageData.AmortisationScheduleType == AmortisationScheduleTypeViewModel.FixedPayments
+                ? ScheduleType.FixedPayments
+                : ScheduleType.FixedTerm;
 
-            var overPayments = model.OverPayments.Select((amt, idx) => new { idx = (double)(idx + 1), amt = (amt * -1) }).ToDictionary(x => x.idx, x => x.amt);
+            var overPayments = mortgageData.OverPayments
+                .Select((amt, idx) => new { idx = (double)(idx + 1), amt = amt * -1 })
+                .ToDictionary(x => x.idx, x => x.amt);
 
             return AmortisationSchedule.create(
-                model.TermYears,
-                model.LoanValue,
+                mortgageData.TermYears,
+                mortgageData.LoanValue,
                 scheduleType,
-                model.TermRate,
-                (model.FixedTermYears.HasValue ? model.FixedTermYears.Value : 0),
-                model.FixedTermRate ?? 0,
+                mortgageData.TermRate,
+                mortgageData.FixedTermYears ?? 0,
+                mortgageData.FixedTermRate ?? 0,
                 overPayments
             ).Select((row, i) => {
                 var (per, rate, pmt, ipmt, ppmt, bal) = row;

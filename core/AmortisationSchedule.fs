@@ -6,12 +6,12 @@ type ScheduleType = FixedTerm | FixedPayments
 
 type InterestRateType = Fixed | Variable
 
-type InterestRate = { 
+type InterestRate = {
     Type:InterestRateType
     APR:float
     MonthlyRate:float }
 
-type AmortisationScheduleEntry = { 
+type AmortisationScheduleEntry = {
     PaymentDate:DateTime
     PaymentNumber:int
     InterestRate:InterestRate
@@ -32,12 +32,12 @@ module AmortisationSchedule =
     let typ = PaymentDue.EndOfPeriod
 
     // Schedule creation functions
-    let private overPaymentAmount overPayments period = 
+    let private overPaymentAmount overPayments period =
         match overPayments |> Map.tryFind period with
         | Some op -> op
         | None -> 0.00
-    
-    let private scheduleEntryData numberOfPayments overPayments monthlyInterestRate period = 
+
+    let private scheduleEntryData numberOfPayments overPayments monthlyInterestRate period =
         let rate = monthlyInterestRate period
         let overPayment = overPaymentAmount overPayments period
         (period, ((numberOfPayments - period) + 1.00), rate, overPayment)
@@ -66,7 +66,7 @@ module AmortisationSchedule =
         let (period, _, interestRate, overPayment) = schedulePeriod
         let (pmt, ipmt, ppmt) = calculatePaymentValuesFixedPayment interestRate balance overPayment paymentAmount
         let newBalance = balance + ppmt
-    
+
         let (pmt', ppmt', newBalance') = match newBalance < 0.00 with
                                          | true -> let payment = balance * -1.00
                                                    (payment, (payment + ipmt), (match newBalance > 0.00 with
@@ -77,7 +77,7 @@ module AmortisationSchedule =
         ((int period, interestRate, pmt', ipmt, ppmt', newBalance'), newBalance)
 
 
-    let create term principal scheduleType variableRate fixedTerm fixedRate (overPayments:IDictionary<float, float>) = 
+    let create term principal scheduleType variableRate fixedTerm fixedRate (overPayments:IDictionary<float, float>) =
         let numberOfPayments = term * 12.00
         let numberOfFixedPayments = fixedTerm * 12.00
         let numberOfVariablePayments = numberOfPayments - numberOfFixedPayments
@@ -92,33 +92,33 @@ module AmortisationSchedule =
             | true -> { Type = Fixed; APR = fixedRate; MonthlyRate = fixedRateMonthlyInterest }
             | false -> { Type = Variable; APR = variableRate; MonthlyRate = variableRateMonthlyInterest }
 
-        let createSchedulePeriodData = 
+        let createSchedulePeriodData =
             scheduleEntryData numberOfPayments overPayments' monthlyInterestRate
 
-        let schedulePeriods = [1.00..numberOfPayments] 
+        let schedulePeriods = [1.00..numberOfPayments]
                               |> List.map createSchedulePeriodData
 
         match scheduleType with
-        | ScheduleType.FixedTerm -> 
-            schedulePeriods 
+        | ScheduleType.FixedTerm ->
+            schedulePeriods
             |> List.mapFold scheduleEntryFixedTerm principal |> fst |> Array.ofList
-        | ScheduleType.FixedPayments -> 
-            let fixedRatePeriodPayment = 
+        | ScheduleType.FixedPayments ->
+            let fixedRatePeriodPayment =
                 (Financial.Pmt(fixedRateMonthlyInterest, numberOfPayments, principal, fv, typ))
 
-            let balanceAtEndOfFixedPeriod = 
+            let balanceAtEndOfFixedPeriod =
                 (Financial.Fv(fixedRateMonthlyInterest, numberOfFixedPayments, fixedRatePeriodPayment, principal, typ)) * -1.00
 
-            let variableRatePeriodPayment = 
+            let variableRatePeriodPayment =
                 (Financial.Pmt(variableRateMonthlyInterest, numberOfVariablePayments, balanceAtEndOfFixedPeriod, fv, typ))
 
-            let (schedule1, bal) = schedulePeriods 
+            let (schedule1, bal) = schedulePeriods
                                    |> List.take (int numberOfFixedPayments)
                                    |> List.mapFold (scheduleEntryFixedPayment fixedRatePeriodPayment) principal
 
-            let schedule2 = schedulePeriods 
+            let schedule2 = schedulePeriods
                             |> List.skip (int numberOfFixedPayments)
-                            |> List.mapFold (scheduleEntryFixedPayment variableRatePeriodPayment) bal 
+                            |> List.mapFold (scheduleEntryFixedPayment variableRatePeriodPayment) bal
                             |> fst
 
             schedule1 @ schedule2 |> List.filter (fun (_, _, pmt, _, _, _) -> pmt <= 0.00) |> Array.ofList
