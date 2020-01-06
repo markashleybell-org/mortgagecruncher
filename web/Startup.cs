@@ -1,7 +1,9 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +28,8 @@ namespace web
                 options.Secure = CookieSecurePolicy.Always;
             });
 
+            services.AddLocalization();
+
             services.AddControllersWithViews();
         }
 
@@ -41,6 +45,19 @@ namespace web
             }
 
             app.UseHttpsRedirection();
+
+            var culture = "en-GB";
+
+            var cultures = new[] {
+                new CultureInfo(culture)
+            };
+
+            app.UseRequestLocalization(new RequestLocalizationOptions {
+                DefaultRequestCulture = new RequestCulture(culture),
+                SupportedUICultures = cultures,
+                SupportedCultures = cultures
+            });
+
             app.UseStaticFiles();
 
             app.UseRouting();
