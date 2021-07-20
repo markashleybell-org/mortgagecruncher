@@ -1,20 +1,19 @@
-﻿using core;
 using System;
+using core;
 
 namespace web.Models
 {
     public class AmortisationScheduleEntryViewModel
     {
-        public int PaymentNumber { get; private set; }
-        public DateTime PaymentDate { get; private set; }
-        public double Payment { get; private set; }
-        public double Principal { get; private set; }
-        public double Interest { get; private set; }
-        public InterestRateType InterestRateType { get; private set; }
-        public double InterestRate { get; private set; }
-        public double Balance { get; private set; }
-
-        public AmortisationScheduleEntryViewModel(int paymentNumber, DateTime paymentDate, double payment, double principal, double interest, InterestRateType interestRateType, double interestRate, double balance)
+        public AmortisationScheduleEntryViewModel(
+            int paymentNumber,
+            DateTime paymentDate,
+            double payment,
+            double principal,
+            double interest,
+            InterestRateType interestRateType,
+            double interestRate,
+            double balance)
         {
             PaymentNumber = paymentNumber;
             PaymentDate = paymentDate;
@@ -25,5 +24,21 @@ namespace web.Models
             InterestRate = interestRate;
             Balance = balance;
         }
+
+        public int PaymentNumber { get; }
+
+        public DateTime PaymentDate { get; }
+
+        public double Payment { get; }
+
+        public double Principal { get; }
+
+        public double Interest { get; }
+
+        public InterestRateType InterestRateType { get; }
+
+        public double InterestRate { get; }
+
+        public double Balance { get; }
     }
 }

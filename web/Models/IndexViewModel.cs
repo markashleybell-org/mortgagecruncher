@@ -30,7 +30,7 @@ namespace web.Models
 
         public IEnumerable<SelectListItem> FixedRatePeriods =>
             new List<SelectListItem> {
-                new SelectListItem { Value = "", Text = "No fixed rate period" },
+                new SelectListItem { Value = string.Empty, Text = "No fixed rate period" },
                 new SelectListItem { Value = "2", Text = "2 years" },
                 new SelectListItem { Value = "5", Text = "5 years" },
                 new SelectListItem { Value = "10", Text = "10 years" }

@@ -46,7 +46,7 @@ namespace web
 
             app.UseHttpsRedirection();
 
-            var culture = "en-GB";
+            const string culture = "en-GB";
 
             var cultures = new[] {
                 new CultureInfo(culture)

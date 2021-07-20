@@ -5,4 +5,3 @@ module Helpers =
         kvps
         |> Seq.map (|KeyValue|)
         |> Map.ofSeq
-

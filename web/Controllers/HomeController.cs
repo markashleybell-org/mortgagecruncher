@@ -55,7 +55,7 @@ namespace web.Controllers
 
             if (!string.IsNullOrWhiteSpace(model.StartDate))
             {
-                if (!DateTime.TryParseExact(model.StartDate, "dd/MM/yyyy", null, DateTimeStyles.None, out var startDate))
+                if (!DateTime.TryParseExact(model.StartDate, "dd/MM/yyyy", null, DateTimeStyles.None, out var _))
                 {
                     ModelState.AddModelError("StartDate", "Start date must be in DD/MM/YYYY format.");
                 }
