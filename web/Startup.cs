@@ -44,8 +44,6 @@ namespace web
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-
             const string culture = "en-GB";
 
             var cultures = new[] {
