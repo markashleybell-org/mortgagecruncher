@@ -1,24 +1,24 @@
 <Query Kind="Program">
-  <Reference Relative="..\core\bin\Debug\core.dll">C:\Src\mortgagecruncher\core\bin\Debug\core.dll</Reference>
-  <Reference Relative="..\core\bin\Debug\ExcelFinancialFunctions.dll">C:\Src\mortgagecruncher\core\bin\Debug\ExcelFinancialFunctions.dll</Reference>
-  <Reference Relative="..\core\bin\Debug\FSharp.Core.dll">C:\Src\mortgagecruncher\core\bin\Debug\FSharp.Core.dll</Reference>
-  <Reference Relative="..\core\bin\Debug\System.ValueTuple.dll">C:\Src\mortgagecruncher\core\bin\Debug\System.ValueTuple.dll</Reference>
+  <Reference Relative="..\core\bin\Debug\netstandard2.0\core.dll">D:\Src\Personal\mortgagecruncher\core\bin\Debug\netstandard2.0\core.dll</Reference>
   <Namespace>core</Namespace>
   <Namespace>Microsoft.FSharp.Collections</Namespace>
+  <RuntimeVersion>8.0</RuntimeVersion>
 </Query>
 
 void Main()
 {
-    var principal = 116250.00;
-    var fixedRate = 2.95;
-    var variableRate = 4.49;
-    var term = 25.00;
-    var fixedTerm = 5.00;
+    var principal = 50445.00;
+    var fixedRate = 4.29;
+    var variableRate = 6.99;
+    var term = 15.00;
+    var fixedTerm = 3.00;
     
-    var overPayments = new Dictionary<double, double> {
-        //{ 26.00, -500.00 }
-    };
-    
+//    var overPayments = new Dictionary<double, double> {
+//        // { 1, -750.00 }
+//    };
+
+	var overPayments = Enumerable.Range(1, 36).Select(i => new { p = (double)i, a = -750.00 }).ToDictionary(x => x.p, x => x.a);
+	
     Func<Tuple<int, InterestRate, double, double, double, double>, object> transform = row => {
         var (per, rate, pmt, ipmt, ppmt, bal) = row;
         return new { 
