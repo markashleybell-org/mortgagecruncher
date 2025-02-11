@@ -32,6 +32,7 @@ namespace web.Models
             new List<SelectListItem> {
                 new SelectListItem { Value = string.Empty, Text = "No fixed rate period" },
                 new SelectListItem { Value = "2", Text = "2 years" },
+                new SelectListItem { Value = "3", Text = "3 years" },
                 new SelectListItem { Value = "5", Text = "5 years" },
                 new SelectListItem { Value = "10", Text = "10 years" }
             };
